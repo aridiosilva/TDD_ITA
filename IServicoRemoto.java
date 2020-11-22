@@ -1,9 +1,8 @@
 package cxeletronico;
 
 public interface IServicoRemoto {
-	
-    public Object recuperarConta(String numeroConta);
-    
-    public void persistirConta (Object contaCorrente);
 
+	public ContaCorrente recuperarConta(String numeroConta);
+	public void persistirConta(ContaCorrente cc);	
+	
 }
