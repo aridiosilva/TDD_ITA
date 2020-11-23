@@ -1,6 +1,6 @@
 # TDD_ITA
 
-This is the results of the practical test related to the Coursera/ITA Platform TDD Course, during the third week, where I must apply mock objects and Test Drivern Development to solve and develop the Automatic Teller Machine application requeriments given in the final test of the third week. Below there are the UML Diagrams tha I have produced  during the design, test and coding, and deployment of all classes and interfaces of the software challenge:
+This is the results of the practical test related to the Coursera/ITA Platform TDD Course, during the third week, where I must apply mock objects and Test Driven Development to solve and develop the Automatic Teller Machine application requeriments given in the final test of the third week. Below there are the UML Diagrams tha I have produced  during the design, test and coding, and deployment of all classes and interfaces of the software challenge:
 
 # Automatic Teller Machine Software Development Project Using TDD technique an Mocks
 
