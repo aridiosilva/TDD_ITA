@@ -1,2 +1,2 @@
 # TDD_ITA
-Software Development Project Using TDD technique an Mocks
+Teller Machine Software Development Project Using TDD technique an Mocks
