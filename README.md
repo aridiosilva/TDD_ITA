@@ -1,12 +1,18 @@
 # TDD_ITA
 
-# Teller Machine Software Development Project Using TDD technique an Mocks
+This is the results of the practical test related to the Courser/ITA Platform TDD Course, in the third week, where I must apply mock objects and Test Drivern Development to develop the Automatic Teller Machine application. Below there are the UML Diagrams produce during the design and implementation of all classes and interfaces of the software challenge:
+
+# Automatic Teller Machine Software Development Project Using TDD technique an Mocks
+
 
 ## UML Class Diagram Teller Machine Application
 
+
 ![classdiagram](https://github.com/aridiosilva/TDD_ITA/blob/main/UML_ClassDiagram_Software_CaixaEletronico_AridioSilva_23_NOV-2020-Versao4.jpg)
 
+
 ## UML Sequence Diagram of Use Case - Automatica Teller Machine (ATM)
+
 
 ![umlsequencediagram](https://github.com/aridiosilva/TDD_ITA/blob/main/UML_UseCases_Software_CaixaEletronico_AridioSilva_22_NOV-2020-VERSAO2.jpg)
 
