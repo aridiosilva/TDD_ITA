@@ -2,8 +2,9 @@
 
 This is the results of the practical test related to the Coursera/ITA Platform TDD Course, during the third week, where I must apply mock objects and Test Driven Development to solve and develop the Automatic Teller Machine application requeriments given in the final test of the third week. Below there are the UML Diagrams tha I have produced  during the design, test and coding, and deployment of all classes and interfaces of the software challenge:
 
-# Automatic Teller Machine Software Development Project Using TDD technique an Mocks
+# Automatic Automatic Teller Machine Software Development Project Using TDD technique and applying Mocks 
 
+The emphasis of this third week of the TDD Course was about the Mocks and its uses. So, I shoould use the Dependency Injection Pattern to replace the external dependencies related to the ATM hardware and the Remote Service that updates and accesses Databases in the cloud. The fucntional requirements ans the functionalities of the first initial release of the application should have the login, withdraw cash, deposit cash, and account balance after the withdraw and deposit operations. Should be use the TDD during the development, and must use the Unit Testing instead of integration test - this is the reason to use mock objects to replace the external dependencies. The Project Pattern used to apply the mock objects was through the Dependency Injection. 
 
 ## UML Class Diagram Teller Machine Application
 
