@@ -24,11 +24,15 @@ public class ContaCorrente {
 		return _senhaConta;
 	}
 	
-	public void abateSaqueDoSaldo(float valorDoSaque) {
-		_saldoConta += valorDoSaque;
+	public void salvaSaldoAposSaqueOuDeposito(float novoSaldo) {
+	    _saldoConta = novoSaldo;
+    }
+	
+	public void abaterValorSaqueDoSaldo(float valorDoSaque) {
+		_saldoConta -= valorDoSaque;
 	}
 	
-	public void acresceValorDoDepositoNoSaldo(float valorDoDeposito) {
+	public void adicionarValorDepositoAoSaldo(float valorDoDeposito) {
 		_saldoConta += valorDoDeposito;
 	}
 	
