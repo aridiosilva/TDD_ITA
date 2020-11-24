@@ -14,7 +14,6 @@ public class MockServicoRemoto implements IServicoRemoto {
 		for (int i = 0; i < _contas.size(); i++) {
 
 			String _numConta = _contas.get(i).getNumeroConta();
-
 			if ( _numConta.equals(numeroConta) ) {
 
 				ContaCorrente _ccItem = new ContaCorrente(
@@ -25,7 +24,7 @@ public class MockServicoRemoto implements IServicoRemoto {
 				return _ccItem;    
 			}
 		}
-		
+	
 		exibirDadosContasCadastradas();
 		ContaCorrente _ccAux = new ContaCorrente ("", 0.0f, "");
 		return _ccAux;
@@ -40,35 +39,27 @@ public class MockServicoRemoto implements IServicoRemoto {
 
 		String _numConta      = cc.getNumeroConta();
 		float _novoSaldo      = (float) cc.getSaldo();
-		
 		for (int i = 0; i < _contas.size(); i++) {
-
 			if ( _numConta.equals( _contas.get(i).getNumeroConta() )) {
-
 				_contas.get(i).salvaSaldoAposSaqueOuDeposito(_novoSaldo);
 				_situacaoConta = _CONTA_EXISTE;
 			}
 		}
 		if (_situacaoConta == _CONTA_NAO_EXISTE)  
-			
 			_contas.add(cc);       
-
 	}
 
 	public String devolverNumeroDaConta(int numRegistro) {
-		
 		if ( _contas.isEmpty() || _contas.size() < numRegistro )		  	 
 			 throw new RuntimeException ("Erro - Database Vazio!!!");
 		return (String)_contas.get(numRegistro).getNumeroConta();
     }
 	
     public String devolverSenhaDaConta(int numRegistro) {
-    	
 		if ( _contas.isEmpty())
 			 throw new RuntimeException ("Erro - Database Vazio!!!");
 		if ( _contas.size() < numRegistro )
 			 throw new RuntimeException ("Erro - Numero do Registros Inexiste no Database!!!");
-
 		return (String)_contas.get(numRegistro).getSenha();
     }
 	
@@ -81,7 +72,6 @@ public class MockServicoRemoto implements IServicoRemoto {
     	
     	int i = 0;
 		for (ContaCorrente c: _contas) {
-			
 			System.out.println("\n"+"#" + i++ + 
 					           " NumConta = (" + c.getNumeroConta() +
                                ") Saldo =  ("  + c.getSaldo() + 
