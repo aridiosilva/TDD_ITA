@@ -1,3 +1,4 @@
+
 package cxeletronico;
 
 import static org.junit.Assert.*;
@@ -8,27 +9,33 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class CaixaEletronicoTest {
 
-	private MockHardware _mockHD = new MockHardware(); 
-	private MockServicoRemoto _mockSR = new MockServicoRemoto();
-	private CaixaEletronico _cxe = new CaixaEletronico ();
-
+	private  static MockHardware _mockHD = new MockHardware(); 
+	private  static MockServicoRemoto _mockSR = new MockServicoRemoto();
+	private  static CaixaEletronico _cxe = new CaixaEletronico ();
+	private  static boolean singleton = true;
+	
 	@Before
 	public void init() {
-		_cxe.adicionarHardware(_mockHD);
-		_cxe.adicionarServicoRemoto(_mockSR);
+		if (singleton) {
+		   _cxe.adicionarHardware(_mockHD);
+		   _cxe.adicionarServicoRemoto(_mockSR);
+		   singleton = false;
+		}
 	}
 
 	@Test
 	public void testa01PrimeiroLogin() {
 		System.out.println("\n"+" CaixaEletronicoTest t009  testa01PrimeiroLogin( ) ");
-		_mockSR.persistirConta(new ContaCorrente ("22222", 200.0f, "xyz"));
+		_mockSR.persistirConta(new ContaCorrente ("22222", 0.0f, "xyz"));
 		ContaCorrente _cc = _mockSR.recuperarConta("22222");
 		assertEquals ("22222", _cc.getNumeroConta());
-		assertEquals (200.0f, _cc.getSaldo());
+		assertEquals (0.0f, _cc.getSaldo());
 		assertEquals ("xyz", _cc.getSenha());
-		assertEquals ( true, _cxe.logar());      	
+		assertEquals ( true, _cxe.logar());  
+		_mockSR.exibirDadosContasCadastradas();
 	}
 	@Test
 	public void testa02SegundoLogin() {
@@ -38,7 +45,8 @@ public class CaixaEletronicoTest {
 		assertEquals ("1234", _cc.getNumeroConta());
 		assertEquals (100.0f, _cc.getSaldo());
 		assertEquals ("senha1", _cc.getSenha());
-		assertEquals ( true, _cxe.logar());      	
+		assertEquals ( true, _cxe.logar());   
+		_mockSR.exibirDadosContasCadastradas();
 	}
 	@Test
 	public void testa03TerceiroLogin() {
@@ -48,7 +56,8 @@ public class CaixaEletronicoTest {
 		assertEquals ("999999", _cc.getNumeroConta());
 		assertEquals (200.0f, _cc.getSaldo());
 		assertEquals ("Senha99", _cc.getSenha());
-		assertEquals ( true, _cxe.logar());      	
+		assertEquals ( true, _cxe.logar());    
+		_mockSR.exibirDadosContasCadastradas();
 	}
 	@Test
 	public void testa04QuartoLogin() {
@@ -192,23 +201,64 @@ public class CaixaEletronicoTest {
 	@Test
 	public void testa19depositoEmContaQueTeveDepositoTeste01() {
 		System.out.println("\n"+" CaixaEletronicoTest t027  testa19depositoEmContaQueTeveDepositoTeste01( ) ");
-		assertEquals ( true, _cxe.depositar("555555", 80.0f));    
-		ContaCorrente _cc = _mockSR.recuperarConta("555555");
+		_mockSR.exibirDadosContasCadastradas();
+		assertEquals ( true,     _cxe.depositar("555555", 80.0f));    
+		ContaCorrente _cc =      _mockSR.recuperarConta("555555");
 		assertEquals ("555555",  _cc.getNumeroConta());
-		assertEquals (160.0f,     _cc.getSaldo());
+		assertEquals (160.0f,    _cc.getSaldo());
 		assertEquals ("Senha95", _cc.getSenha());
 	}
 	@Test
-	public void Testa20depositoEmContaQueTeveDepositoTeste02() {
-		System.out.println("\n"+" CaixaEletronicoTest t028  Testa20depositoEmContaQueTeveDepositoTeste02( ) ");
-		assertEquals ( true, _cxe.depositar("666666", 40.0f));    
-		ContaCorrente _cc = _mockSR.recuperarConta("666666");
-		assertEquals ("666666",  _cc.getNumeroConta());
-		assertEquals (230.0f,     _cc.getSaldo());
-		assertEquals ("Senha97", _cc.getSenha());
-	}
+	public void testa20saldoPositivoTeste01() {
+		System.out.println("\n"+" CaixaEletronicoTest t028  Testa20saldoPositivoTeste01( ) ");
 
+		assertEquals ( true,     _cxe.saldo ("1234"));    
+		ContaCorrente _cc =      _mockSR.recuperarConta("1234");
+		assertEquals ("1234",  _cc.getNumeroConta());
+		assertEquals (600.0f,    _cc.getSaldo());
+		assertEquals ("senha1", _cc.getSenha());
+	}
+	@Test
+	public void testa21saldoNegativoTeste02() {
+		System.out.println("\n"+" CaixaEletronicoTest t029  testa21saldoNegativoTeste02( ) ");
+
+		assertEquals ( true,     _cxe.saldo ("888888"));    
+		ContaCorrente _cc =      _mockSR.recuperarConta("888888");
+		assertEquals ("888888",  _cc.getNumeroConta());
+		assertEquals (-110.0f,    _cc.getSaldo());
+		assertEquals ("Senha96", _cc.getSenha());
+		_mockSR.exibirDadosContasCadastradas();
+	}
+	@Test
+	public void testa22saldoNuloTeste03() {
+		System.out.println("\n"+" CaixaEletronicoTest t030  testa22saldoNuloTeste03( ) ");
+
+		assertEquals ( true,     _cxe.saldo ("22222"));    
+		ContaCorrente _cc =      _mockSR.recuperarConta("22222");
+		assertEquals ("22222",   _cc.getNumeroConta());
+		assertEquals (0.0f,      _cc.getSaldo());
+		assertEquals ("xyz",     _cc.getSenha());
+	}
+	@Test
+	public void Testa23depositoDeValorNulo() {
+		System.out.println("\n"+" CaixaEletronicoTest t031  Testa23depositoDeValorNulo( ) ");
+		assertEquals ( false, _cxe.depositar ("1234", 0.0f));    
+	}
+	@Test
+	public void Testa24depositoDeValorNegativo() {
+		System.out.println("\n"+" CaixaEletronicoTest t032  Testa24depositoDeValorNegativo( ) ");
+		assertEquals ( false, _cxe.depositar ("777777", -300.0f));    
+	}
+	@Test
+	public void Testa25saqueValorNegativo() {
+		System.out.println("\n"+" CaixaEletronicoTest t033  Testa25saqueValorNegativo( ) ");
+		assertEquals ( false, _cxe.sacar ("666666", -30.0f));    
+	}
+	@Test
+	public void Testa26saqueValorNulo() {
+		System.out.println("\n"+" CaixaEletronicoTest t034  Testa26saqueValorNulo( ) ");
+		assertEquals ( false, _cxe.sacar ("555555", 0.0f));    
+	}
 		
-	
 }
 
