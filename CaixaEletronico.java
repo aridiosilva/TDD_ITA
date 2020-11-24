@@ -1,20 +1,21 @@
 
 package cxeletronico;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CaixaEletronico {
 
-	private List<IHardwareComplementar> _hardware = new ArrayList(); 
-	private List<IServicoRemoto> _servRemoto  = new ArrayList();
-	private IHardwareComplementar _h; 
-	private IServicoRemoto _s; 
-	private ContaCorrente _cc;
+	private  List<IHardwareComplementar> _hardware = new ArrayList(); 
+	private  List<IServicoRemoto> _servRemoto  = new ArrayList();
+	private  IHardwareComplementar _h; 
+	private  IServicoRemoto _s; 
+	private  ContaCorrente _account = new ContaCorrente(null, 0.0f, null);
 	
 	public Boolean logar() {
 
-		String _LOGIN_OK = "Usuario Autenticado com Sucesso";
+		String _LOGIN_OK     = "Usuario Autenticado com Sucesso";
 		String _LOGIN_FALHOU = "Não foi possivel autenticar usuario";
 		String _numeroConta;
 		String _senhaUsuario;
@@ -23,19 +24,13 @@ public class CaixaEletronico {
 		_s = _servRemoto.get(0);
 		try {
 			_numeroConta  = _h.pegarNumeroDaConta("SemErro");
-//			System.out.println("Login Conta Lida do Cartão: [" + _numeroConta + "]");
-			_cc = _s.recuperarConta(_numeroConta);
-//			System.out.println(" RECUPERADA NumConta= (" + _cc.getNumeroConta() +
-//                   ") Saldo=  (" + _cc.getSaldo() + ") Senha=  (" + _cc.getSenha() + ")");
+			_account = _s.recuperarConta(_numeroConta);
 			_senhaUsuario = _h.solicitarSenhaDoUsuario("SemErro");
-//			System.out.println("Login Senha Obtida: [" + _senhaUsuario + "]");
-			String _senhaGravada = _cc.getSenha();
-//			System.out.println("Login Senha Gravada: [" + _senhaGravada + "]");
-			if ( !_senhaUsuario.contains(_senhaGravada) ) { 
+			String _senhaGravada = _account.getSenha();
+			if ( !_senhaUsuario.equals(_senhaGravada) ) { 
 				_h.exibirMsgAoUsuarioCaixaEletronico(_LOGIN_FALHOU);
 				return false; 			
 			}
-
 		} catch (Exception e) {
 			_h.exibirMsgAoUsuarioCaixaEletronico(_LOGIN_FALHOU);
 			return false;   
@@ -44,40 +39,26 @@ public class CaixaEletronico {
 		return true;
 	}
 
-	public void adicionarHardware(IHardwareComplementar hardwareCXE) {
-		_hardware.clear();
-		_hardware.add(hardwareCXE);
-//		System.out.println("MOCK HARDWARE ADICIONADO");
-	}
-
-	public void adicionarServicoRemoto(IServicoRemoto servRemoto) {
-		_servRemoto.clear();
-		_servRemoto.add(servRemoto);
-//		System.out.println("MOCK SERVIDOR REMOTO ADICIONADO");
-	}
-	
 	public Boolean sacar(String numConta, float valorDoSaque) {		
 
-		System.out.println("Sacar de CC: " + numConta );
-		System.out.println(" Saque = " + valorDoSaque);
-		if (_hardware.isEmpty())
-			throw new RuntimeException ("Erro Interno Aplicacao");
-		if (_servRemoto.isEmpty())
+		if (_hardware.isEmpty() || _servRemoto.isEmpty() )
 			throw new RuntimeException ("Erro Interno Aplicacao");	
-		_h = _hardware.get(0);
-		_s = _servRemoto.get(0);
-		_cc = _s.recuperarConta(numConta);
-		float _saldoCliente = (float) _cc.getSaldo();
-		System.out.println(" Saldo Atual = " + _saldoCliente);
 		try {
+			_h = _hardware.get(0);
+			_s = _servRemoto.get(0);		
+			_h.lerEnvelope("Insira o Envelope");
+			_account = _s.recuperarConta(numConta);
+			float _saldoCliente = (float) _account.getSaldo();
+			if (valorDoSaque <= 0.0f ) {
+				_h.exibirMsgAoUsuarioCaixaEletronico("Saque de Valor Zero ou Negativo não é possível");
+	            return false;
+			}
 			if (_saldoCliente < valorDoSaque) {
 				_h.exibirMsgAoUsuarioCaixaEletronico("Saldo Insuficinte");   
-				System.out.println(" Saldo Final = " + _cc.getSaldo());
 		        return false;
 			}
-			_cc.abaterValorSaqueDoSaldo(valorDoSaque);
-			System.out.println(" Saldo Final = " + _cc.getSaldo());
-			_s.persistirConta (_cc);
+			_account.abaterValorSaqueDoSaldo(valorDoSaque);
+			_s.persistirConta (_account);
 			_h.exibirMsgAoUsuarioCaixaEletronico("Retire seu Dinheiro");  
 			
 		} catch (Exception e) {
@@ -90,22 +71,20 @@ public class CaixaEletronico {
 
 	public Boolean depositar(String numConta, float valorADepositar) {		
 
-		System.out.println("Deposita na CC: " + numConta );
-		System.out.println("Deposito de = " + valorADepositar);
-		if (_hardware.isEmpty())
+		if (_hardware.isEmpty() || _servRemoto.isEmpty()) 
 			throw new RuntimeException ("Erro Interno Aplicacao");
-		if (_servRemoto.isEmpty())
-			throw new RuntimeException ("Erro Interno Aplicacao");	
 		_h = _hardware.get(0);
 		_s = _servRemoto.get(0);
 		try {
-			_cc = _s.recuperarConta(numConta);
-			System.out.println(" Saldo Atual = " + _cc.getSaldo());	
-			_cc.adicionarValorDepositoAoSaldo( valorADepositar );
+			_account = _s.recuperarConta(numConta);
+			if (valorADepositar <= 0.0f ) {
+				_h.exibirMsgAoUsuarioCaixaEletronico("Deposito de Valor Zero ou Negativo não é possível");
+	            return false;
+			}
+			_account.adicionarValorDepositoAoSaldo( valorADepositar );
 			_h.exibirMsgAoUsuarioCaixaEletronico("Insira o Envelope");   
-			_s.persistirConta (_cc);
-			System.out.println(" Saldo Final = " + _cc.getSaldo());
-			_h.exibirMsgAoUsuarioCaixaEletronico("Deposito Recebido com Sucesso");  
+			_s.persistirConta (_account);
+			_h.entregarDinheiro("Deposito Recebido com Sucesso");  
 
 		} catch (Exception e) {
 			_h.exibirMsgAoUsuarioCaixaEletronico("Problema no Hardware");
@@ -114,7 +93,38 @@ public class CaixaEletronico {
 		return true;	
 	}
 
-	
+	public Boolean saldo (String numConta) {
+
+		String _prefixo = "O Saldo é de R$";
+
+		if (_hardware.isEmpty() || _servRemoto.isEmpty()) 
+			throw new RuntimeException ("Erro Interno Aplicacao");
+		_h = _hardware.get(0);
+		_s = _servRemoto.get(0);
+		try {
+			_account = _s.recuperarConta(numConta);
+			_h.exibirMsgAoUsuarioCaixaEletronico(_prefixo.concat(String.format("%,.2f",_account.getSaldo())));
+			return true;
+
+		} catch (Exception e) {
+			_h.exibirMsgAoUsuarioCaixaEletronico("Problema no Hardware");
+	        return false;
+		}		
+	}
+
+	public void adicionarHardware(IHardwareComplementar hardwareCXE) {
+		_hardware.clear();
+		_hardware.add(hardwareCXE);
+		System.out.println("MOCK HARDWARE ADICIONADO");
+	}
+
+	public void adicionarServicoRemoto(IServicoRemoto servRemoto) {
+		_servRemoto.clear();
+		_servRemoto.add(servRemoto);
+		System.out.println("MOCK SERVIDOR REMOTO ADICIONADO");
+	}
+
 }
+
 
 

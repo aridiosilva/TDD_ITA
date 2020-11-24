@@ -1,25 +1,29 @@
+
 package cxeletronico;
 
 public class MockHardware implements IHardwareComplementar {
 
 	private static int _indice=-1;
-	private int _INDEX_MAXIMO_CONTAS = 14;
 
 	@Override
 	public String pegarNumeroDaConta(String msg) {
+		
 		if (msg == null)
 			throw new RuntimeException ("Problema de Hardware");
+		
+		MockServicoRemoto _mockSR = new MockServicoRemoto();
+		int numtotalContas = _mockSR.informarQuantDeContasCadastradas();
 
-		if (_indice > _INDEX_MAXIMO_CONTAS || _indice < 0)  
+		if (_indice > numtotalContas || _indice < 0)  
 			_indice = 0;    else   _indice++;
 
 		System.out.println(" HARDWARE indice: " + _indice );
-		MockServicoRemoto _mockSR = new MockServicoRemoto();
-		return (String) _mockSR.devolverNumConta(_indice);
+		return (String) _mockSR.devolverNumeroDaConta(_indice);
 	}
 
 	@Override
 	public void entregarDinheiro(String msg) {
+		
 		exibirMsgAoUsuarioCaixaEletronico (msg);
 	};
 
@@ -27,6 +31,7 @@ public class MockHardware implements IHardwareComplementar {
 	public void lerEnvelope(String msg) {
 		if (msg == null)
 			throw new RuntimeException ("Problema de Hardware");
+		
 		exibirMsgAoUsuarioCaixaEletronico (msg);
 	}
 
@@ -34,28 +39,30 @@ public class MockHardware implements IHardwareComplementar {
 	public void exibirMsgAoUsuarioCaixaEletronico(String msg) {
 		if (msg == null)
 			throw new RuntimeException ("Problema de Hardware");
+		
 		System.out.println("msg: " + msg);
 	}
 
 	@Override
-	public String solicitarSenhaDoUsuario (String msg) {		
+	public String solicitarSenhaDoUsuario (String msg) {
+		
 		if (msg == null)
 			throw new RuntimeException ("Problema de Hardware");
-//		System.out.println(" HARDWARE indice: " + _indice );
+		
 		MockServicoRemoto _mockSR = new MockServicoRemoto();
-		return (String) _mockSR.devolverSenhaConta(_indice);
+		return (String) _mockSR.devolverSenhaDaConta(_indice);
 	}
 
 	@Override
 	public String solicitarValorASacar(String msg) {
-		// TODO Auto-generated method stub
-		return null;
+		exibirMsgAoUsuarioCaixaEletronico (msg);
+		return "0.0f";
 	}
 
 	@Override
 	public String solicitarValorADepositar(String msg) {
-		// TODO Auto-generated method stub
-		return null;
+		exibirMsgAoUsuarioCaixaEletronico (msg);
+		return "0.0f";
 	}
 
 }
