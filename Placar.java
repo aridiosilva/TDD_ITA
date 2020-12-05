@@ -9,9 +9,11 @@ public class Placar {
 	private  List<IArmazenamento> _arquivo = new ArrayList(); 
 	private  IArmazenamento _a; 
 	
-	public Placar (IArmazenamento arquivo) {
+	private TreeSet<Usuarios> _cache =  new TreeSet<Usuarios>();
+	
+	public Placar (IArmazenamento a) {
 		_arquivo.clear();
-		_arquivo.add(arquivo);
+		_arquivo.add(a);
 		System.out.println("MOCK do ARMAZENAMENTO ADICIONADO");
 	}
 	
@@ -24,8 +26,8 @@ public class Placar {
 	public void registrarPontosDoUsuario(Usuarios u) {
 		init();
 		_a.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(u);
+		_cache.add(u);
     }
-	
-	
+
 
 }

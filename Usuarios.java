@@ -4,12 +4,12 @@ public class Usuarios implements Comparable<Object> {
 
 	String _usuario;
 	String _tipoPonto;
-	int _pontos;
+	String _pontos;
 
 	public  Usuarios (String usuario, String tipoPonto, int totalPontos) {
 		this._usuario = usuario.toLowerCase();
 		this._tipoPonto = tipoPonto.toLowerCase();
-		this._pontos = totalPontos;
+		this._pontos = Integer.toString(totalPontos);
 	}
 
 	public String getUsuario () {		
@@ -19,9 +19,8 @@ public class Usuarios implements Comparable<Object> {
 		return _tipoPonto;
 	}
 	public int getPontos () {		
-		return _pontos;
+		return Integer.parseInt(_pontos); 
 	}
-
 	
 	@Override
 	public boolean equals (Object o) {		
