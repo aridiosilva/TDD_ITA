@@ -1,65 +1,74 @@
 package courseraita;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
 
 public class MockArmazenamento implements IArmazenamento {
 
-	private TreeSet<Usuarios> _pontuacaoUsuarios;
-	private HashSet<String> _tiposDePontos;
-	private HashSet<String> _UsuariosCadastrados;
+	private static LinkedList<Usuarios>    _pontuacaoUsuarios      = new LinkedList<Usuarios>();
+	private static HashSet<String>        _diferentesTiposDePontos = new HashSet<String>();
+	private static HashSet<String>        _usuariosCadastrados     = new HashSet<String>();
+	private static HashMap<String,String> _usuariosETiposDePontos  = new HashMap<String,String>();
 
-	public MockArmazenamento () {
-		this._pontuacaoUsuarios = new TreeSet<Usuarios>();
-		this._tiposDePontos = new HashSet<String>();
-		_UsuariosCadastrados = new HashSet<String>();
+	private void exibe (String msg) {
+		System.out.println(msg);
 	}
 
 	@Override
 	public void armazenarQtePontosDeUmTipoRecebidoPeloUsuario(Usuarios u) {
+
 		_pontuacaoUsuarios.add (u);
-		_tiposDePontos.add (u._tipoPonto);
-		_UsuariosCadastrados.add(u._usuario);
-		
-		System.out.println("adicinado pontos no ARQUIVO" +
-		                   " User = " + u.getUsuario()  + 
-		                   " Ponto = " + u.getTipoPonto() + 
-		                   " pontos =" + u.getPontos() + "\n");
+		_diferentesTiposDePontos.add (u._tipoPonto);
+		_usuariosCadastrados.add(u._usuario);
+		_usuariosETiposDePontos.put(u._usuario, u._tipoPonto);		
+
+		exibe (	"\n Registro Adicionado -> " + u.getUsuario()  + ", " + u.getTipoPonto() +  ", " + u.getPontos());
+		exibe ("tipos de pontos = " + _diferentesTiposDePontos);
+ 		System.out.println("Lista de Usuarios= " +  _usuariosCadastrados );
+
 	}
 
 	@Override
 	public HashSet<String> retornarTiposDePontosRegistrados() {
-	    System.out.println("tipo de pontos existentes: \n" + _tiposDePontos + "\n");
-		return _tiposDePontos;
+
+		System.out.println( _diferentesTiposDePontos + "\n");
+		return _diferentesTiposDePontos;
 	}
 
 	@Override
 	public List<Usuarios> retornarUsuariosComPontosDiferenteZero() {
+
 		return null;
 	}
-
+	
 	@Override
 	public int recuperarQuantoPontosDeUmTipoTemOUsuario(String tipoPonto, String usuario) throws Exception {
-		if (_pontuacaoUsuarios.isEmpty())			
+
+		if (_pontuacaoUsuarios.size() == 0)
 			throw new Exception ("Arquivo Vazio - Nenhuma Pontuacao de Usuario");
-		
-		int _totalPontos = 0;		
-		Iterator itr = (Iterator) _pontuacaoUsuarios.iterator();
-		while (itr.hasNext()) {
-    	    Usuarios _u = (Usuarios) itr.next();
-			System.out.println("Registro Lido do Arquivo" + " User = " + _u.getUsuario()  + 
-	                   " Ponto = " + _u.getTipoPonto() + " pontos =" + _u.getPontos() + "\n");
-    		
-			if (_u.getUsuario().contains(usuario) && _u.getTipoPonto().contains(tipoPonto)) {
-				_totalPontos += _u.getPontos();
-    		}
-			if (_totalPontos == 0) 
-    			throw new Exception ("Usuario: " + usuario + " e Tipo de Pontuação: " +  
-    					             tipoPonto + " não Existe no Arquivo!!! ");
-    	}
+
+		exibe("Procurar por -> " + usuario  + " , " + tipoPonto);
+
+		int _totalPontos = 0;
+		for (int i = 0; i < _pontuacaoUsuarios.size(); i++) {
+			
+		    System.out.println(" REG=" + i + " -->)" + _pontuacaoUsuarios.get(i).getUsuario() + " , " + 
+		    		_pontuacaoUsuarios.get(i).getTipoPonto() + " , " +
+		    		_pontuacaoUsuarios.get(i).getPontos() );
+		    
+			if (_pontuacaoUsuarios.get(i).getUsuario() == usuario &&
+				_pontuacaoUsuarios.get(i).getTipoPonto() == tipoPonto) {
+				
+				int p = _pontuacaoUsuarios.get(i).getPontos();
+				_totalPontos += p;
+			    System.out.println (" contador = " + _totalPontos );
+			}
+		}
 		return _totalPontos;
 	}
 

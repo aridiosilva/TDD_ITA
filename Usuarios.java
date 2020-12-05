@@ -1,15 +1,18 @@
 package courseraita;
 
-public class Usuarios implements Comparable<Object> {
+public class Usuarios {
 
 	String _usuario;
 	String _tipoPonto;
 	String _pontos;
 
 	public  Usuarios (String usuario, String tipoPonto, int totalPontos) {
-		this._usuario = usuario.toLowerCase();
+		
+		System.out.println("-> " + usuario + " , " + tipoPonto  + " , " +  totalPontos);
+		
+		this._usuario   = usuario.toLowerCase();
 		this._tipoPonto = tipoPonto.toLowerCase();
-		this._pontos = Integer.toString(totalPontos);
+		this._pontos    = Integer.toString(totalPontos);
 	}
 
 	public String getUsuario () {		
@@ -21,19 +24,5 @@ public class Usuarios implements Comparable<Object> {
 	public int getPontos () {		
 		return Integer.parseInt(_pontos); 
 	}
-	
-	@Override
-	public boolean equals (Object o) {		
-		return false;
-	}
-	@Override
-	public String toString() {
-		return null;
-	}
-	@Override
-	public int compareTo(Object o) {
-		return 0;
-	}
 
-	
 }
