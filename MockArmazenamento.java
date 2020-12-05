@@ -25,7 +25,7 @@ public class MockArmazenamento implements IArmazenamento {
 	}
 
 	@Override
-	public HashSet<String> retornarTiposDePontosRegistrados() {
+	public HashSet<String> retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario() {
 		System.out.println( _diferentesTiposDePontos + "\n");
 		return _diferentesTiposDePontos;
 	}
