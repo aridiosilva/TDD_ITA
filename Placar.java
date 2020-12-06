@@ -1,33 +1,55 @@
 package courseraita;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeSet;
 
 public class Placar {
-
-	private  List<IArmazenamento> _arquivo = new ArrayList(); 
+ 
+	private  List<IArmazenamento> _arquivo = new ArrayList<IArmazenamento>(); 
 	private  IArmazenamento _a; 
 
-	private TreeSet<Usuarios> _cache =  new TreeSet<Usuarios>();
-
 	public Placar (IArmazenamento a) {
-		_arquivo.clear();
-		_arquivo.add(a);
-		System.out.println("MOCK do ARMAZENAMENTO ADICIONADO");
+			this._arquivo.clear();
+			this._arquivo.add(a);
+			this._a = _arquivo.get(0);
+			System.out.println("\n  (PLACAR) MOCK do ARMAZENAMENTO ADICIONADO");
 	}
-
-	private void init () {
-		_a = _arquivo.get(0);
-		if (_arquivo.isEmpty())
-			throw new RuntimeException ("Erro Interno na Aplicacao");	
+	public void registrarPontosDoUsuario(PontuacaoUsuarios u) {
+		_a.armazenarPontuacaoDeUmUsuario(u);
 	}
-
-	public void registrarPontosDoUsuario(Usuarios u) {
-		init();
-		_a.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(u);
-		_cache.add(u);
+  	public HashMap<String,String> retornarPontosDoUsuario (String usuario) throws Exception {
+	
+  		LinkedList<PontuacaoUsuarios> _pu = _a.retornarUsuariosComAlgumTipodePonto();
+  		if (_pu.isEmpty())
+  			throw new Exception (" (PLACAR) Error: Nenhum Ponto Registrado ainda - Nada a Fazer!!!");
+		
+		HashMap<String,String>  _novaLista = new HashMap<String,String>();
+		
+		for (int i = 0; i < _pu.size(); i++) {			
+			if ( _pu.get(i).getPontos() > 0  && _pu.get(i).getUsuario().contains(usuario))  { 				
+				PontuacaoUsuarios p = new PontuacaoUsuarios(_pu.get(i).getUsuario(), 
+						                                    _pu.get(i).getTipoPonto(), 
+						                                    _pu.get(i).getPontos());
+				exibeListaDePontuacao (p);
+				_novaLista.put(_pu.get(i).getTipoPonto(), Integer.toString(_pu.get(i).getPontos()));
+			}
+		}
+		if (_novaLista.isEmpty()) {
+			throw new Exception ("Usuario [" + usuario + "] Sem Pontuacao - Nada a Fazer !!!");
+		}
+		exibePontuacoesDeUmUsuario(_novaLista);
+		return _novaLista;  	
 	}
-
+	private void exibeListaDePontuacao (PontuacaoUsuarios p) {		
+	    System.out.print("(PLACAR) Pontuacao: " + p.getUsuario() + ", " + p.getTipoPonto() + ", " + p.getPontos());
+	}
+	private void exibePontuacoesDeUmUsuario (HashMap<String,String> h) {		
+		System.out.println ("\n (PLACAR) LISTA de PONTOS de Um Usuário ");
+		for (String i : h.keySet()) {
+		  System.out.print("  key: " + i + " value: " + h.get(i));
+		}
+	}
 
 }
