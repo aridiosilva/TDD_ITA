@@ -19,67 +19,67 @@ class TestMockArmazenamento {
 	
 	@Test
 	void test001() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("FERNANDES", "ESTRELA", 19));
-		assertEquals (19,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("estrela", "fernandes"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("FERNANDES", "ESTRELA", 19));
+		assertEquals (19,_mock.recuperarPontosDeUmTipoDeUmUsuario("estrela", "fernandes"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (1,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("estrela"));
 	}
 	@Test
 	void test002() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("TOCO", "ESTRELA", 20));
-		assertEquals (20,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("estrela", "toco"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("TOCO", "ESTRELA", 20));
+		assertEquals (20,_mock.recuperarPontosDeUmTipoDeUmUsuario("estrela", "toco"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (1,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("estrela"));
 	}
 	@Test
 	void test003() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("rodrigo", "estrela", 17));
-		assertEquals (17,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("estrela", "rodrigo"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("rodrigo", "estrela", 17));
+		assertEquals (17,_mock.recuperarPontosDeUmTipoDeUmUsuario("estrela", "rodrigo"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (1,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("estrela"));
 	}
 	@Test
 	void test004() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("rodrigo", "energia", 15));
-		assertEquals (15,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("energia", "rodrigo"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("rodrigo", "energia", 15));
+		assertEquals (15,_mock.recuperarPontosDeUmTipoDeUmUsuario("energia", "rodrigo"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (2,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
 	}
 	@Test
 	void test005() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("rodrigo", "energia", 25));
-		assertEquals (40,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("energia", "rodrigo"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("rodrigo", "energia", 25));
+		assertEquals (40,_mock.recuperarPontosDeUmTipoDeUmUsuario("energia", "rodrigo"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (2,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
 	}
 	@Test
 	void test006() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("maria", "curtida", 0));
-		assertEquals (0,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("curtida", "maria"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("maria", "curtida", 0));
+		assertEquals (0,_mock.recuperarPontosDeUmTipoDeUmUsuario("curtida", "maria"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (3,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
 	}
 	@Test
 	void test007() throws Exception {
-		_mock.armazenarQtePontosDeUmTipoRecebidoPeloUsuario(new Usuarios("guerra", "moeda", 5));
-		assertEquals (5,_mock.recuperarQuantoPontosDeUmTipoTemOUsuario("moeda", "guerra"));
-		HashSet<String> _tiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("guerra", "moeda", 5));
+		assertEquals (5,_mock.recuperarPontosDeUmTipoDeUmUsuario("moeda", "guerra"));
+		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (4,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("moeda"));
 	}
 	void test008() throws Exception {
-		LinkedList<Usuarios> _users = _mock.retornarTodosUsuariosComAlgumTipodePonto();
+		LinkedList<PontuacaoUsuarios> _users = _mock.retornarUsuariosComAlgumTipodePonto();
 	    assertEquals (5,_users.size());
 	}
 	void test009() throws Exception {
 		String[] _listaTiposPontos = {"moeda", "estrela", "energia", "curtida"};
-		HashSet<String> _diferentesTiposDePontos = _mock.retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario();
+		HashSet<String> _diferentesTiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (_listaTiposPontos.length,_diferentesTiposDePontos.size());
 		String stringao1 = null;
 		String stringao2 = null;
