@@ -5,12 +5,12 @@ import java.util.LinkedList;
 
 public interface IArmazenamento {
 
-	public void armazenarQtePontosDeUmTipoRecebidoPeloUsuario (Usuarios u);
+	public void armazenarPontuacaoDeUmUsuario (PontuacaoUsuarios p);
 	
-	public HashSet<String> retornarTodosOsTiposDePontosJaRegistradosparaAlgumUsuario ();
+	public HashSet<String> retornarTiposDePontosJaRegistrados ();
 	
-	public LinkedList<Usuarios> retornarTodosUsuariosComAlgumTipodePonto () throws Exception;
+	public LinkedList<PontuacaoUsuarios> retornarUsuariosComAlgumTipodePonto () throws Exception;
 	
-	public int recuperarQuantoPontosDeUmTipoTemOUsuario (String tipoPonto, String usuario) throws Exception;
+	public int recuperarPontosDeUmTipoDeUmUsuario (String tipoPonto, String usuario) throws Exception;
 
 }
