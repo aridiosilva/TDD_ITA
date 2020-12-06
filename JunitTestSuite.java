@@ -1,21 +1,16 @@
-
-package cxeletronico;
-
-import static org.junit.jupiter.api.Assertions.*;
+package courseraita;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-
 @RunWith(Suite.class)
 
-@Suite.SuiteClasses({ 
+@Suite.SuiteClasses({
 	
-	CaixaEletronicoTest.class,
-	MockServicoRemotoTest.class
-	
+	TestMockArmazenamento.class,
+	TestPlacar.class
 })
 
 public class JunitTestSuite {
-}
 
+}

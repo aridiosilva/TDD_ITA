@@ -1,12 +1,8 @@
 package courseraita;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
@@ -62,7 +58,7 @@ class TestMockArmazenamento {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("maria", "curtida", 0));
 		assertEquals (0,_mock.recuperarPontosDeUmTipoDeUmUsuario("curtida", "maria"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
-		assertEquals (3,_tiposDePontos.size());
+		assertEquals (2,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
 	}
 	@Test
@@ -70,24 +66,23 @@ class TestMockArmazenamento {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("guerra", "moeda", 5));
 		assertEquals (5,_mock.recuperarPontosDeUmTipoDeUmUsuario("moeda", "guerra"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
-		assertEquals (4,_tiposDePontos.size());
+		assertEquals (3,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("moeda"));
 	}
+	@Test
 	void test008() throws Exception {
 		LinkedList<PontuacaoUsuarios> _users = _mock.retornarUsuariosComAlgumTipodePonto();
-	    assertEquals (5,_users.size());
+	    assertEquals (7,_users.size());
 	}
+	@Test 
 	void test009() throws Exception {
-		String[] _listaTiposPontos = {"moeda", "estrela", "energia", "curtida"};
+		String[] _listaTiposPontos = {"moeda", "estrela", "energia"};
 		HashSet<String> _diferentesTiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (_listaTiposPontos.length,_diferentesTiposDePontos.size());
-		String stringao1 = null;
-		String stringao2 = null;
-		for (int i =0; i < _listaTiposPontos.length; i++ ) {
-			stringao1 =  stringao1 + _listaTiposPontos[i];
-			stringao2 =  stringao2 + _diferentesTiposDePontos.iterator();
+		for (String s : _listaTiposPontos) {
+			  System.out.print(" -> " + s);
+			  assertEquals (true, _diferentesTiposDePontos.contains(s) );			  
 		}
-		assertEquals (stringao1,stringao2);
 	}
 
 	
