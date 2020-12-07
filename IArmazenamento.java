@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public interface IArmazenamento {
 
-	public void armazenarPontuacaoDeUmUsuario (PontuacaoUsuarios p);
+	public void armazenarPontuacaoDeUmUsuario (PontuacaoUsuarios u);
 	
 	public HashSet<String> retornarTiposDePontosJaRegistrados ();
 	

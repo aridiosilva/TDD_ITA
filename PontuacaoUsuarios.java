@@ -24,5 +24,8 @@ public class PontuacaoUsuarios {
 	public int getPontos () {		
 		return Integer.parseInt(_pontos); 
 	}
+	public String getPontosEmString () {		
+		return _pontos; 
+	}
 
 }

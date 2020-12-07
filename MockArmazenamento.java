@@ -27,9 +27,9 @@ public class MockArmazenamento implements IArmazenamento {
 				!_usuariosETiposDePontos.containsValue(p._tipoPonto) )
 				_usuariosETiposDePontos.put(p._usuario, p._tipoPonto);
 		}
-//		exibeUsuariosETiposDePontosCadastrados (_usuariosETiposDePontos);
-//		exibeUsuariosCadastrados (_usuariosCadastrados);
-//		exibeTiposPontosCadastrados(_diferentesTiposDePontos);
+		exibeUsuariosETiposDePontosCadastrados (_usuariosETiposDePontos);
+		exibeUsuariosCadastrados (_usuariosCadastrados);
+		exibeTiposPontosCadastrados(_diferentesTiposDePontos);
 	}
 	
 	@Override
@@ -81,7 +81,7 @@ public class MockArmazenamento implements IArmazenamento {
 			String name       = (String) _pontuacaoUsuarios.get(i).getUsuario();
 			String typePoints = (String) _pontuacaoUsuarios.get(i).getTipoPonto();
 			int points        = (int)    _pontuacaoUsuarios.get(i).getPontos();
-//			System.out.println(" REG=" + i + " -->)" + name + " , " + typePoints + " , " + points );
+			System.out.println(" REG=" + i + " -->)" + name + " , " + typePoints + " , " + points );
 			if (name.contains(usuario)) {
 				usuarioNaoEncontrado = false;
 				if (typePoints.contains(tipoPonto)) {
@@ -91,16 +91,16 @@ public class MockArmazenamento implements IArmazenamento {
 			}
 		}
 		if (usuarioNaoEncontrado) {
-//			System.out.println ("nao achei o usuario " + usuario );
+			System.out.println ("nao achei o usuario " + usuario );
 			throw new Exception ("Error: Usuario Nao Encontrado!!! ");
 		}
 		return _totalPontos;
 	}
  
 	private void exibeDadosPontuacao (PontuacaoUsuarios p) {
-//		exibe (	"\n Registro Adicionado -> " + p.getUsuario()  + ", " + p.getTipoPonto() +  ", " + p.getPontos());
-//		exibe ("tipos de pontos = " + _diferentesTiposDePontos);
-//		System.out.println("Lista de Usuarios= " +  _usuariosCadastrados );
+		exibe (	"\n Registro Adicionado -> " + p.getUsuario()  + ", " + p.getTipoPonto() +  ", " + p.getPontos());
+		exibe ("tipos de pontos = " + _diferentesTiposDePontos);
+		System.out.println("Lista de Usuarios= " +  _usuariosCadastrados );
 	}
 	private void exibe (String msg) {
 		System.out.println(msg);
@@ -126,7 +126,7 @@ public class MockArmazenamento implements IArmazenamento {
 	}
 	private void exibePontuacao (LinkedList<PontuacaoUsuarios> p) {		
 		System.out.println ("\n (ST) LISTA TOTAL USUARIOS COM PONTUACAO: ");
-		for (int i=0; p.size() < i; i++) {			
+		for (int i=0; i < p.size(); i++) {			
 			  System.out.print("(" + i + ") " + p.get(i).getUsuario() +
 					           ", " + p.get(i).getTipoPonto() + 
 					           ", " + p.get(i).getPontos());
