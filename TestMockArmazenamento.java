@@ -1,3 +1,4 @@
+
 package courseraita;
 
 import static org.junit.Assert.assertEquals;
@@ -84,6 +85,6 @@ class TestMockArmazenamento {
 			  assertEquals (true, _diferentesTiposDePontos.contains(s) );			  
 		}
 	}
-
-	
 }
+
+

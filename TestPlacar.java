@@ -1,3 +1,4 @@
+
 package courseraita;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +37,7 @@ class TestPlacar {
 	@Test
 	void test004() throws Exception {
     	_placar = new Placar (_mock);
-		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("fernanda ", "vida ", 48));
+		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("fernanda", "vida ", 48));
 		assertEquals (48,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida ", "fernanda"));
 	}
 	@Test
@@ -77,16 +78,22 @@ class TestPlacar {
 	}
 	@Test
 	void test010() throws Exception {
-	    _placar = new Placar (_mock);
-	    List<RankingPontos> _ranking = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
-		assertEquals (false,_ranking.isEmpty());
-//		assertEquals (true,_ranking.listIterator().equals("francisco"));
-//		assertEquals (true,_pontosDoUsuario.containsValue("5"));
-//		assertEquals (true,_pontosDoUsuario.containsKey("estrela"));
-//		assertEquals (false,_ranking.contains("19"));
-//		assertEquals (true,_pontosDoUsuario.containsKey("vida"));
-//		assertEquals (true,_pontosDoUsuario.containsValue("45"));
+		_placar = new Placar (_mock);
+		List<RankingPontos> _rankingOrdemDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
+		assertEquals (false,_rankingOrdemDecrescente.isEmpty());
+		assertEquals (true,_rankingOrdemDecrescente.get(0).getUsuario().equals("antonieta"));
+		assertEquals (300l,_rankingOrdemDecrescente.get(0).getPontos());
+		assertEquals (true,_rankingOrdemDecrescente.get(1).getUsuario().equals("antonio"));
+		assertEquals (145l,_rankingOrdemDecrescente.get(1).getPontos());
+		assertEquals (true,_rankingOrdemDecrescente.get(2).getUsuario().equals("rafael"));
+		assertEquals (140l,_rankingOrdemDecrescente.get(2).getPontos());
+		assertEquals (true,_rankingOrdemDecrescente.get(3).getUsuario().equals("pereira"));;
+		assertEquals (125l,_rankingOrdemDecrescente.get(3).getPontos());
+		assertEquals (true,_rankingOrdemDecrescente.get(4).getUsuario().equals("fernanda"));
+		assertEquals (48l,_rankingOrdemDecrescente.get(4).getPontos());
+		assertEquals (true,_rankingOrdemDecrescente.get(5).getUsuario().equals("francisco"));
+		assertEquals ( 45l,_rankingOrdemDecrescente.get(5).getPontos());
 	}
-		
-
 }
+
+
