@@ -71,15 +71,22 @@ public class Placar {
 		ArrayList<RankingPontos> _ranking = getRankingNaoClassificado (tipoPonto);
 
 		Comparator<RankingPontos> compareByPoints = 
-				Comparator.comparing(RankingPontos::getPontos).
+				Comparator.comparing(RankingPontos::getPontos).reversed().
 				thenComparing(RankingPontos::getUsuario);
 
 		List<RankingPontos> _sortedRanking = 
 				_ranking.stream().sorted(compareByPoints).collect(Collectors.toList());
 		
-	    Collections.sort(_sortedRanking, Collections.reverseOrder());
+//	    Collections.sort(_sortedRanking, Collections.reverseOrder());
 
-
+//		...stream()
+//		 .sorted(Comparator.reverseOrder())
+		 
+//		 Comparator<File> comparator = Comparator.comparing(File::lastModified); 
+//.sort(list, comparator.reversed());
+		 
+		 
+		 
 		for (int i = 0; i < _sortedRanking.size(); i++) {
 
 			System.out.println("Nome = "       + _sortedRanking.get(i).getUsuario() +
@@ -111,8 +118,7 @@ public class Placar {
 				_list.add( new RankingPontos(name, points));
                                          
 		}		
-     	System.out.println ("--> Lista Filtrada = " + _list);
-		return _list;
+ 		return _list;
 	}
 
 
