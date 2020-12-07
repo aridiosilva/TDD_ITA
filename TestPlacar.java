@@ -3,6 +3,7 @@ package courseraita;
 import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.FixMethodOrder;
@@ -45,5 +46,18 @@ class TestPlacar {
 		assertEquals (true,_pontosDoUsuario.containsValue("45"));
 
 	}
-	
+	@Test
+	void test005() throws Exception {
+	    _placar = new Placar (_mock);
+	    List<RankingPontos> _ranking = _placar.retornarRankingUsuariosDeUmTipoDePonto ("estrela");
+		assertEquals (false,_ranking.isEmpty());
+		assertEquals (true,_ranking.listIterator().equals("francisco"));
+//		assertEquals (true,_pontosDoUsuario.containsValue("5"));
+//		assertEquals (true,_pontosDoUsuario.containsKey("estrela"));
+//		assertEquals (false,_ranking.contains("19"));
+//		assertEquals (true,_pontosDoUsuario.containsKey("vida"));
+//		assertEquals (true,_pontosDoUsuario.containsValue("45"));
+	}
+		
+
 }
