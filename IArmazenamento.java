@@ -14,3 +14,4 @@ public interface IArmazenamento {
 	public int recuperarPontosDeUmTipoDeUmUsuario (String tipoPonto, String usuario) throws Exception;
 
 }
+

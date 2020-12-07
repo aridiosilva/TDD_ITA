@@ -1,3 +1,4 @@
+
 package courseraita;
 
 public class PontuacaoUsuarios {
@@ -29,3 +30,4 @@ public class PontuacaoUsuarios {
 	}
 
 }
+

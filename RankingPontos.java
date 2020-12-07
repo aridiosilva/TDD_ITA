@@ -1,3 +1,4 @@
+
 package courseraita;
 
 public class RankingPontos {
@@ -17,3 +18,4 @@ public class RankingPontos {
 		return _pontos; 
 	}
 }
+
