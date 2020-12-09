@@ -17,7 +17,7 @@ class TestMockArmazenamento {
 	@Test
 	void test001() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("FERNANDES", "ESTRELA", 19));
-		assertEquals (19,_mock.recuperarPontosDeUmTipoDeUmUsuario("estrela", "fernandes"));
+		assertEquals (19,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "fernandes"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (1,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("estrela"));
@@ -25,7 +25,7 @@ class TestMockArmazenamento {
 	@Test
 	void test002() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("TOCO", "ESTRELA", 20));
-		assertEquals (20,_mock.recuperarPontosDeUmTipoDeUmUsuario("estrela", "toco"));
+		assertEquals (20,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "toco"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (1,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("estrela"));
@@ -33,7 +33,7 @@ class TestMockArmazenamento {
 	@Test
 	void test003() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("rodrigo", "estrela", 17));
-		assertEquals (17,_mock.recuperarPontosDeUmTipoDeUmUsuario("estrela", "rodrigo"));
+		assertEquals (17,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "rodrigo"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (1,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("estrela"));
@@ -41,7 +41,7 @@ class TestMockArmazenamento {
 	@Test
 	void test004() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("rodrigo", "energia", 15));
-		assertEquals (15,_mock.recuperarPontosDeUmTipoDeUmUsuario("energia", "rodrigo"));
+		assertEquals (15,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("energia", "rodrigo"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (2,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
@@ -49,7 +49,7 @@ class TestMockArmazenamento {
 	@Test
 	void test005() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("rodrigo", "energia", 25));
-		assertEquals (40,_mock.recuperarPontosDeUmTipoDeUmUsuario("energia", "rodrigo"));
+		assertEquals (40,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("energia", "rodrigo"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (2,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
@@ -57,7 +57,7 @@ class TestMockArmazenamento {
 	@Test
 	void test006() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("maria", "curtida", 0));
-		assertEquals (0,_mock.recuperarPontosDeUmTipoDeUmUsuario("curtida", "maria"));
+		assertEquals (0,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("curtida", "maria"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (2,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("energia"));
@@ -65,7 +65,7 @@ class TestMockArmazenamento {
 	@Test
 	void test007() throws Exception {
 		_mock.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("guerra", "moeda", 5));
-		assertEquals (5,_mock.recuperarPontosDeUmTipoDeUmUsuario("moeda", "guerra"));
+		assertEquals (5,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("moeda", "guerra"));
 		HashSet<String> _tiposDePontos = _mock.retornarTiposDePontosJaRegistrados();
 		assertEquals (3,_tiposDePontos.size());
 		assertEquals (true,_tiposDePontos.contains("moeda"));
