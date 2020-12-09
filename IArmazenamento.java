@@ -11,7 +11,7 @@ public interface IArmazenamento {
 	
 	public LinkedList<PontuacaoUsuarios> retornarUsuariosComAlgumTipodePonto () throws Exception;
 	
-	public int recuperarPontosDeUmTipoDeUmUsuario (String tipoPonto, String usuario) throws Exception;
+	public int recuperarTotaisDePontosDeUmTipoDeUmUsuario (String tipoPonto, String usuario) throws Exception;
 
 }
 
