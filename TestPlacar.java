@@ -20,7 +20,9 @@ class TestPlacar {
 	 
 	@Test
 	void testSet001PrimeiroUsuarioComPontosPositivosENegativos() throws Exception {
-		
+
+		// Conferindo inclusão de varias pontuações de um mesmo usuario
+
     	_placar = new Placar (_mock);
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "estrela", 50));
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "comentarios", 80));
@@ -30,7 +32,9 @@ class TestPlacar {
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "moeda", 44));
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "estrela", 100));
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "estrela", -50));
-		
+
+		// Conferindo a recuperação das varias pontuações de um mesmo usuario
+
 		HashMap<String,String> _pontosUsuario = _placar.retornarPontosDoUsuario("francisco");
 		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("moeda"));  
@@ -51,19 +55,32 @@ class TestPlacar {
 		assertEquals (true,_pontosUsuario.containsKey("curtida"));
 		assertEquals (true,_pontosUsuario.containsValue("28"));
 		
-//		assertEquals (44,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("moeda", "francisco"));  
-//		assertEquals (100,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "francisco"));  // 50 + 100 - 140 = 10 (saldo de pontos p/estrela)
-//		assertEquals (19,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("vida", "francisco"));  
-//		assertEquals (30,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("energia", "francisco")); 
-//		assertEquals (80,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("comentarios", "francisco")); 
-//		assertEquals (28,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("curtida", "francisco"));  
-	
+		// Conferindo a recuperação do Placar e do  Ranking de Pontos do Tipo  "vida" de um Mesmo Usuario
+		
+		List<RankingPontos> _rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
+		assertEquals (false,_rankingDecrescente.isEmpty());
+		assertEquals (1,_rankingDecrescente.size());
+		System.out.println ("\n\n TESTANDO PLACAR do Francisco ");
+		exibeRankingPontos(_rankingDecrescente);
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("francisco"));
+		assertEquals (19,_rankingDecrescente.get(0).getPontos());
 
+		// Conferindo a recuperação do Placar e do  Ranking de Pontos do Tipo  "estrela"
+		
+		_rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("estrela");
+		assertEquals (false,_rankingDecrescente.isEmpty());
+		assertEquals (1,_rankingDecrescente.size());
+		System.out.println ("\n\n TESTANDO PLACAR de ESTRELA do Francisco ");
+		exibeRankingPontos(_rankingDecrescente);
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("francisco"));
+		assertEquals (100,_rankingDecrescente.get(0).getPontos());
 	}
  
 	@Test
 	void testSet002SOutrosUsuariosComMultiplosPontos() throws Exception {
    	
+		// Conferindo inclusão de diversas pontuações de diversos usuarios - acrescendo ao Set Anterior
+
 		_placar = new Placar (_mock);
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("fernanda", "estrela", 50));
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("fernanda", "estrela", 100));
@@ -79,23 +96,14 @@ class TestPlacar {
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("maria", "estrela", 100));
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("rafael", "vida", -50));
 		
-//		assertEquals (10,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "fernanda"));  // 50 + 100 - 140 = 10 (saldo de pontos p/estrela) 
-//		assertEquals (45,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("curtida", "antonio"));  
-//		assertEquals (30,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("moeda", "antonio"));  
-//		assertEquals (39,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("vida", "pedro"));      // 19 + 20 = 39 (saldo de pontos p/vida)
-//		assertEquals (30,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("energia", "toco"));  
-//		assertEquals (28,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("curtida", "rodrigo"));  
-//		assertEquals (44,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("moeda", "maria")); 
-//		assertEquals (100,_mock.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "maria")); 
-
-		// Conferindo dos Pontos da Fernanda
+		// Conferindo a recuperação dos Pontos da Fernanda
 
 		HashMap<String,String> _pontosUsuario = _placar.retornarPontosDoUsuario("fernanda");
 		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("estrela"));  
 		assertEquals (true,_pontosUsuario.containsValue("10"));          // 50 + 100 - 140 = 10 (saldo de pontos p/estrela) 
 
-		// Conferindo dos Pontos do Antonio 
+		// Conferindo a recuperação dos Pontos do Antonio 
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("antonio");
 		assertEquals (false,_pontosUsuario.isEmpty());
@@ -106,28 +114,28 @@ class TestPlacar {
 		assertEquals (true,_pontosUsuario.containsKey("moeda"));
 		assertEquals (true,_pontosUsuario.containsValue("30"));
 
-		// Conferindo dos Pontos do Pedro 
+		// Conferindo a recuperação dos Pontos do Pedro 
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("pedro");
 		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("vida"));
 		assertEquals (true,_pontosUsuario.containsValue("39"));
 
-		// Conferindo dos Pontos do Toco 
+		// Conferindo a recuperação dos Pontos do Toco 
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("toco");
 		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("energia"));
 		assertEquals (true,_pontosUsuario.containsValue("30"));
 
-		// Conferindo dos Pontos do Rodrigo
+		// Conferindo a recuperação dos Pontos do Rodrigo
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("rodrigo");
 		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("curtida"));
 		assertEquals (true,_pontosUsuario.containsValue("28"));
 
-		// Conferindo dos Pontos da Maria
+		// Conferindo a recuperação dos Pontos da Maria
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("maria");
 		assertEquals (false,_pontosUsuario.isEmpty());
@@ -136,7 +144,7 @@ class TestPlacar {
 		assertEquals (true,_pontosUsuario.containsKey("estrela"));
 		assertEquals (true,_pontosUsuario.containsValue("100"));
 	
-		// Conferindo dos Pontos do Francisco inseridos no TesteSet001
+		// Conferindo a recuperação dos Pontos do Francisco inseridos no TesteSet001
 		
 		_pontosUsuario = _placar.retornarPontosDoUsuario("francisco");
 		assertEquals (false,_pontosUsuario.isEmpty());
@@ -160,112 +168,60 @@ class TestPlacar {
 		assertEquals (true,_pontosUsuario.containsValue("28"));
 			 
 	
-		// Conferindo o Ranking de Pontos do Tipo  "vida"
+		// Conferindo a recuperação do Placar e do Ranking de Pontos do Tipo  "vida"
 		
 		List<RankingPontos> _rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
 		assertEquals (false,_rankingDecrescente.isEmpty());
-//		exibeRankingPontos(_rankingDecrescente);
-		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("antonio"));
-		assertEquals (20,_rankingDecrescente.get(0).getPontos());
-		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("pedro"));
+		assertEquals (4,_rankingDecrescente.size());
+		exibeRankingPontos(_rankingDecrescente);
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("pedro"));
+		assertEquals (39,_rankingDecrescente.get(0).getPontos());
+		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("antonio"));
 		assertEquals (20,_rankingDecrescente.get(1).getPontos());
 		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("francisco"));
 		assertEquals (19,_rankingDecrescente.get(2).getPontos());
-		assertEquals (true,_rankingDecrescente.get(3).getUsuario().equals("pedro"));;
-		assertEquals (19,_rankingDecrescente.get(3).getPontos());
-		assertEquals (true,_rankingDecrescente.get(4).getUsuario().equals("rafael"));
-		assertEquals (-50,_rankingDecrescente.get(4).getPontos());
+		assertEquals (true,_rankingDecrescente.get(3).getUsuario().equals("rafael"));
+		assertEquals (-50,_rankingDecrescente.get(3).getPontos());
 
-		// Conferindo o Ranking de Pontos do Tipo  "estrela"
+		// Conferindo a recuperação do Placar e do  Ranking de Pontos do Tipo  "estrela"
 		
-
 		_rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("estrela");
 		assertEquals (false,_rankingDecrescente.isEmpty());
+		assertEquals (3,_rankingDecrescente.size());
 		exibeRankingPontos(_rankingDecrescente);
-	
-		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("fernanda"));
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("francisco"));
 		assertEquals (100,_rankingDecrescente.get(0).getPontos());
-		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("francisco"));
+		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("maria"));
 		assertEquals (100,_rankingDecrescente.get(1).getPontos());
-		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("maria"));
-		assertEquals (100,_rankingDecrescente.get(2).getPontos());
-		assertEquals (true,_rankingDecrescente.get(3).getUsuario().equals("fernanda"));;
-		assertEquals (50,_rankingDecrescente.get(3).getPontos());
-		assertEquals (true,_rankingDecrescente.get(4).getUsuario().equals("francisco"));
-		assertEquals (50,_rankingDecrescente.get(4).getPontos());
-		assertEquals (true,_rankingDecrescente.get(5).getUsuario().equals("francisco"));
-		assertEquals (-50,_rankingDecrescente.get(5).getPontos());
-		assertEquals (true,_rankingDecrescente.get(6).getUsuario().equals("fernanda"));;
-		assertEquals (-140,_rankingDecrescente.get(6).getPontos());
-	}
+		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("fernanda"));
+		assertEquals (10,_rankingDecrescente.get(2).getPontos());
 
-	//	@Test
-//	void test003() throws Exception {
-//   	_placar = new Placar (_mock);
-//		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "vida", 45));
-//		assertEquals (45,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida", "francisco"));
-//	}
-//	@Test
-//	void test004() throws Exception {
-//   	_placar = new Placar (_mock);
-//		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("fernanda", "vida ", 48));
-//		assertEquals (48,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida ", "fernanda"));
-//	}
-//	@Test
-//	void test005() throws Exception {
-//   	_placar = new Placar (_mock);
-//		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("antonio", "vida", 145));
-//		assertEquals (145,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida", "antonio"));
-//	}
-//	@Test
-//	void test006() throws Exception {
-//   	_placar = new Placar (_mock);
-//		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("rafael", "vida", 140));
-//		assertEquals (140,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida", "rafael"));
-//	}
-//	@Test
-//	void test007() throws Exception {
-//   	_placar = new Placar (_mock);
-//		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("antonieta", "vida", 300));
-//		assertEquals (300,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida", "antonieta"));
-//	}
-//	@Test
-//	void test008() throws Exception {
-//   	_placar = new Placar (_mock);
-//		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("pereira", "vida", 125));
-//		assertEquals (125,_mock.recuperarPontosDeUmTipoDeUmUsuario("vida", "pereira"));
-//	}
-//	@Test
-//	void test009() throws Exception {
-//	    _placar = new Placar (_mock);
-//		HashMap<String,String> _pontosDoUsuario = _placar.retornarPontosDoUsuario ("francisco");
-//		assertEquals (true,_pontosDoUsuario.containsKey("comentario"));
-//		assertEquals (true,_pontosDoUsuario.containsValue("5"));
-//		assertEquals (true,_pontosDoUsuario.containsKey("star"));
-//		assertEquals (true,_pontosDoUsuario.containsValue("19"));
-//		assertEquals (true,_pontosDoUsuario.containsKey("vida"));
-//		assertEquals (true,_pontosDoUsuario.containsValue("45"));
-//
-//	}
-//	@Test
-//	void test010() throws Exception {
-//		_placar = new Placar (_mock);
-//		List<RankingPontos> _rankingOrdemDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
-//		assertEquals (false,_rankingOrdemDecrescente.isEmpty());
-//		assertEquals (true,_rankingOrdemDecrescente.get(0).getUsuario().equals("antonieta"));
-//		assertEquals (300l,_rankingOrdemDecrescente.get(0).getPontos());
-//		assertEquals (true,_rankingOrdemDecrescente.get(1).getUsuario().equals("antonio"));
-//		assertEquals (145l,_rankingOrdemDecrescente.get(1).getPontos());
-//		assertEquals (true,_rankingOrdemDecrescente.get(2).getUsuario().equals("rafael"));
-//		assertEquals (140l,_rankingOrdemDecrescente.get(2).getPontos());
-//		assertEquals (true,_rankingOrdemDecrescente.get(3).getUsuario().equals("pereira"));;
-//		assertEquals (125l,_rankingOrdemDecrescente.get(3).getPontos());
-//		assertEquals (true,_rankingOrdemDecrescente.get(4).getUsuario().equals("fernanda"));
-//		assertEquals (48l,_rankingOrdemDecrescente.get(4).getPontos());
-//		assertEquals (true,_rankingOrdemDecrescente.get(5).getUsuario().equals("francisco"));
-//		assertEquals ( 45l,_rankingOrdemDecrescente.get(5).getPontos());
-//	}
-	
+		// Conferindo a recuperação do Placar e do  Ranking de Pontos do Tipo  "curtida"
+		
+		_rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("curtida");
+		assertEquals (false,_rankingDecrescente.isEmpty());
+		assertEquals (3,_rankingDecrescente.size());
+		exibeRankingPontos(_rankingDecrescente);
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("antonio"));
+		assertEquals (45,_rankingDecrescente.get(0).getPontos());
+		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("francisco"));
+		assertEquals (28,_rankingDecrescente.get(1).getPontos());
+		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("rodrigo"));
+		assertEquals (28,_rankingDecrescente.get(2).getPontos());
+
+		// Conferindo a recuperação do Placar e do  Ranking de Pontos do Tipo  "moeda"
+		
+		_rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("moeda");
+		assertEquals (false,_rankingDecrescente.isEmpty());
+		assertEquals (3,_rankingDecrescente.size());
+		exibeRankingPontos(_rankingDecrescente);
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("francisco"));
+		assertEquals (44,_rankingDecrescente.get(0).getPontos());
+		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("maria"));
+		assertEquals (44,_rankingDecrescente.get(1).getPontos());
+		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("antonio"));
+		assertEquals (30,_rankingDecrescente.get(2).getPontos());
+	}
 	
 	private void exibeListaDePontuacao (PontuacaoUsuarios p) {	
 		
