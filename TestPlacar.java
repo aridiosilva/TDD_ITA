@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ class TestPlacar {
 		_placar.registrarPontosDoUsuario(new PontuacaoUsuarios("francisco", "estrela", -50));
 		
 		HashMap<String,String> _pontosUsuario = _placar.retornarPontosDoUsuario("francisco");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("moeda"));  
 		assertEquals (true,_pontosUsuario.containsValue("44"));
 		
@@ -89,12 +91,14 @@ class TestPlacar {
 		// Conferindo dos Pontos da Fernanda
 
 		HashMap<String,String> _pontosUsuario = _placar.retornarPontosDoUsuario("fernanda");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("estrela"));  
 		assertEquals (true,_pontosUsuario.containsValue("10"));          // 50 + 100 - 140 = 10 (saldo de pontos p/estrela) 
 
 		// Conferindo dos Pontos do Antonio 
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("antonio");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("vida"));
 		assertEquals (true,_pontosUsuario.containsValue("20"));    
 		assertEquals (true,_pontosUsuario.containsKey("curtida"));
@@ -105,24 +109,28 @@ class TestPlacar {
 		// Conferindo dos Pontos do Pedro 
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("pedro");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("vida"));
 		assertEquals (true,_pontosUsuario.containsValue("39"));
 
 		// Conferindo dos Pontos do Toco 
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("toco");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("energia"));
 		assertEquals (true,_pontosUsuario.containsValue("30"));
 
 		// Conferindo dos Pontos do Rodrigo
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("rodrigo");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("curtida"));
 		assertEquals (true,_pontosUsuario.containsValue("28"));
 
 		// Conferindo dos Pontos da Maria
 
 		_pontosUsuario = _placar.retornarPontosDoUsuario("maria");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		assertEquals (true,_pontosUsuario.containsKey("moeda"));
 		assertEquals (true,_pontosUsuario.containsValue("44"));
 		assertEquals (true,_pontosUsuario.containsKey("estrela"));
@@ -131,6 +139,7 @@ class TestPlacar {
 		// Conferindo dos Pontos do Francisco inseridos no TesteSet001
 		
 		_pontosUsuario = _placar.retornarPontosDoUsuario("francisco");
+		assertEquals (false,_pontosUsuario.isEmpty());
 		
 		assertEquals (true,_pontosUsuario.containsKey("moeda"));
 		assertEquals (true,_pontosUsuario.containsValue("44"));
@@ -150,31 +159,44 @@ class TestPlacar {
 		assertEquals (true,_pontosUsuario.containsKey("curtida"));
 		assertEquals (true,_pontosUsuario.containsValue("28"));
 			 
-		
-		System.out.print("\n\n +++++++++ Pontos do francisco +++++++++++++++");
-		for (String i : _pontosUsuario.keySet()) {
-			System.out.print("\n  key: " + i + " value: " + _pontosUsuario.get(i));
-		}
-		System.out.print("\n\n");
-
-		
+	
 		// Conferindo o Ranking de Pontos do Tipo  "vida"
 		
-		List<RankingPontos> _rankingOrdemDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
-		assertEquals (false,_rankingOrdemDecrescente.isEmpty());
-		assertEquals (true,_rankingOrdemDecrescente.get(0).getUsuario().equals("francisco "));
-		assertEquals (300l,_rankingOrdemDecrescente.get(0).getPontos());
-		assertEquals (true,_rankingOrdemDecrescente.get(1).getUsuario().equals("antonio"));
-		assertEquals (145l,_rankingOrdemDecrescente.get(1).getPontos());
-		assertEquals (true,_rankingOrdemDecrescente.get(2).getUsuario().equals("rafael"));
-		assertEquals (140l,_rankingOrdemDecrescente.get(2).getPontos());
-		assertEquals (true,_rankingOrdemDecrescente.get(3).getUsuario().equals("pereira"));;
-		assertEquals (125l,_rankingOrdemDecrescente.get(3).getPontos());
-		assertEquals (true,_rankingOrdemDecrescente.get(4).getUsuario().equals("fernanda"));
-		assertEquals (48l,_rankingOrdemDecrescente.get(4).getPontos());
-		assertEquals (true,_rankingOrdemDecrescente.get(5).getUsuario().equals("francisco"));
-		assertEquals ( 45l,_rankingOrdemDecrescente.get(5).getPontos());
+		List<RankingPontos> _rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
+		assertEquals (false,_rankingDecrescente.isEmpty());
+//		exibeRankingPontos(_rankingDecrescente);
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("antonio"));
+		assertEquals (20,_rankingDecrescente.get(0).getPontos());
+		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("pedro"));
+		assertEquals (20,_rankingDecrescente.get(1).getPontos());
+		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("francisco"));
+		assertEquals (19,_rankingDecrescente.get(2).getPontos());
+		assertEquals (true,_rankingDecrescente.get(3).getUsuario().equals("pedro"));;
+		assertEquals (19,_rankingDecrescente.get(3).getPontos());
+		assertEquals (true,_rankingDecrescente.get(4).getUsuario().equals("rafael"));
+		assertEquals (-50,_rankingDecrescente.get(4).getPontos());
 
+		// Conferindo o Ranking de Pontos do Tipo  "estrela"
+		
+
+		_rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("estrela");
+		assertEquals (false,_rankingDecrescente.isEmpty());
+		exibeRankingPontos(_rankingDecrescente);
+	
+		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("fernanda"));
+		assertEquals (100,_rankingDecrescente.get(0).getPontos());
+		assertEquals (true,_rankingDecrescente.get(1).getUsuario().equals("francisco"));
+		assertEquals (100,_rankingDecrescente.get(1).getPontos());
+		assertEquals (true,_rankingDecrescente.get(2).getUsuario().equals("maria"));
+		assertEquals (100,_rankingDecrescente.get(2).getPontos());
+		assertEquals (true,_rankingDecrescente.get(3).getUsuario().equals("fernanda"));;
+		assertEquals (50,_rankingDecrescente.get(3).getPontos());
+		assertEquals (true,_rankingDecrescente.get(4).getUsuario().equals("francisco"));
+		assertEquals (50,_rankingDecrescente.get(4).getPontos());
+		assertEquals (true,_rankingDecrescente.get(5).getUsuario().equals("francisco"));
+		assertEquals (-50,_rankingDecrescente.get(5).getPontos());
+		assertEquals (true,_rankingDecrescente.get(6).getUsuario().equals("fernanda"));;
+		assertEquals (-140,_rankingDecrescente.get(6).getPontos());
 	}
 
 	//	@Test
@@ -243,6 +265,39 @@ class TestPlacar {
 //		assertEquals (true,_rankingOrdemDecrescente.get(5).getUsuario().equals("francisco"));
 //		assertEquals ( 45l,_rankingOrdemDecrescente.get(5).getPontos());
 //	}
+	
+	
+	private void exibeListaDePontuacao (PontuacaoUsuarios p) {	
+		
+		System.out.print("(1) " + p.getUsuario() + ", " + p.getTipoPonto() + ", " + p.getPontos() + "\n");
+	}
+	
+	private void exibePontuacoesDeUmUsuario (HashMap<String,String> h) {	
+		
+		System.out.println ("\n\n TESTANDO PLACAR ");
+		
+		for (String i : h.keySet()) {
+			System.out.print("\n  key: " + i + " value: " + h.get(i));
+		}
+	}
+	
+	private void exibePontuacao (LinkedList<PontuacaoUsuarios> pu) {		
+		
+		System.out.println ("\n\n TESTANDO PLACAR  ");
+		
+		for (int i=0; i < pu.size(); i++) {			
+			exibeListaDePontuacao (new PontuacaoUsuarios(pu.get(i).getUsuario(),pu.get(i).getTipoPonto(),pu.get(i).getPontos()));
+		}
+	}
+	private void exibeRankingPontos (List<RankingPontos> r) {		
+		
+		System.out.println ("\n\n TESTANDO PLACAR  ");
+		
+		for (int i=0; i < r.size(); i++) {			
+			System.out.println (" tp= " + r.get(i).getUsuario() + " p= " + r.get(i).getPontos());
+		}
+	}
+
 }
 
 
