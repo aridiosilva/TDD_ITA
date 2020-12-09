@@ -12,18 +12,15 @@ public class Placar {
 
 	private  IArmazenamento _armazenamento; 
 
-	public Placar (IArmazenamento a) {
-		
+	public Placar (IArmazenamento a) {		
 		this._armazenamento = a;
 	}
 	
-	public void registrarPontosDoUsuario(PontuacaoUsuarios u) {
-		
+	public void registrarPontosDoUsuario(PontuacaoUsuarios u) {		
 		_armazenamento.armazenarPontuacaoDeUmUsuario(u);
 	}
 	
-	public HashMap<String,String> retornarPontosDoUsuario (String usuario) throws Exception {
-		
+	public HashMap<String,String> retornarPontosDoUsuario (String usuario) throws Exception {		
 		LinkedList<PontuacaoUsuarios> _pu = _armazenamento.retornarUsuariosComAlgumTipodePonto();
 		
 //		exibePontuacao(_pu);
@@ -36,26 +33,19 @@ public class Placar {
 				_pu.get(i).getUsuario().contains(usuario))  { 		
 				
 				PontuacaoUsuarios p = new PontuacaoUsuarios(
-						_pu.get(i).getUsuario(),
-						_pu.get(i).getTipoPonto(), 
-						_pu.get(i).getPontos());
+						_pu.get(i).getUsuario(),_pu.get(i).getTipoPonto(),_pu.get(i).getPontos());
 				
 				if ( _novaLista.containsKey( _pu.get(i).getTipoPonto() )) {
 					
-					int np = _pu.get(i).getPontos() +  Integer.parseInt(_novaLista.get(_pu.get(i).getTipoPonto()));
-					_novaLista.put(
-							_pu.get(i).getTipoPonto(), 
-							Integer.toString(np));
-					
+					int np = _pu.get(i).getPontos() + Integer.parseInt(_novaLista.get(_pu.get(i).getTipoPonto()));
+					_novaLista.put(	_pu.get(i).getTipoPonto(),Integer.toString(np));
+				
 				} else {
-				     _novaLista.put( 
-						_pu.get(i).getTipoPonto(), 
-						_pu.get(i).getPontosEmString());
+				     _novaLista.put(_pu.get(i).getTipoPonto(),_pu.get(i).getPontosEmString());
 				}
 				exibeListaDePontuacao (p);
 			}
 		}
-		
 		if (_novaLista.isEmpty()) {
 			throw new Exception ("Usuario [" + usuario + "] Sem Pontuacao - Nada a Fazer !!!");
 		}
@@ -64,8 +54,7 @@ public class Placar {
 		return _novaLista;  	
 	}
 	
-	public List<RankingPontos> retornarRankingUsuariosDeUmTipoDePonto (String tipoPonto) throws Exception {
-		
+	public List<RankingPontos> retornarRankingUsuariosDeUmTipoDePonto (String tipoPonto) throws Exception {		
 		ArrayList<RankingPontos> _ranking = getRankingNaoClassificado (tipoPonto);
 		
 		Comparator<RankingPontos> compareByPoints = 
@@ -78,8 +67,8 @@ public class Placar {
 		return _sortedRanking;
 	}
 	
-	private ArrayList<RankingPontos> getRankingNaoClassificado(String tipoPonto) throws Exception 
-	{
+	private ArrayList<RankingPontos> getRankingNaoClassificado(String tipoPonto) throws Exception {
+		
 		LinkedList<PontuacaoUsuarios> _pontuacaoUsuarios = _armazenamento.retornarUsuariosComAlgumTipodePonto();
 		
 		if (_pontuacaoUsuarios.isEmpty())
@@ -91,9 +80,9 @@ public class Placar {
 			
 			String name       = (String) _pontuacaoUsuarios.get(i).getUsuario();
 			String typePoints = (String) _pontuacaoUsuarios.get(i).getTipoPonto();
-			long points        = (long)  _pontuacaoUsuarios.get(i).getPontos();
+			int points        = (int)  _pontuacaoUsuarios.get(i).getPontos();
 			
-//			System.out.println ("\nLIDO = tipo de ponto = " + typePoints + " " + name + " " + points );
+			System.out.println ("\nLIDO = tipo de ponto = " + typePoints + " " + name + " " + points );
 			
 			if (typePoints.contains(tipoPonto)) 	
 				_list.add( new RankingPontos(name, points));

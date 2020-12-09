@@ -7,13 +7,13 @@ public class PontuacaoUsuarios {
 	String _tipoPonto;
 	String _pontos;
 
-	public  PontuacaoUsuarios (String usuario, String tipoPonto, int numeroPontos) {
+	public  PontuacaoUsuarios (String u, String tp, int p) {
 		
-		System.out.println("-> " + usuario + " , " + tipoPonto  + " , " +  numeroPontos);
+		System.out.println("-> " + u + " , " + tp  + " , " +  p);
 		
-		this._usuario   = usuario.toLowerCase();
-		this._tipoPonto = tipoPonto.toLowerCase();
-		this._pontos    = Integer.toString(numeroPontos);
+		this._usuario   = u.toLowerCase();
+		this._tipoPonto = tp.toLowerCase();
+		this._pontos    = Integer.toString(p);
 	}
 
 	public String getUsuario () {		

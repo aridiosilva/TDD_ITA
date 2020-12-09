@@ -4,17 +4,17 @@ package courseraita;
 public class RankingPontos {
 
 	String _usuario;
-	long _pontos;
+	int _pontos;
 
-	public  RankingPontos (String usuario, long numeroPontos) {
-		System.out.println("Item do Ranking -> " + usuario + " , "  +  numeroPontos);
-		this._usuario   = usuario.toLowerCase();
-		this._pontos    = numeroPontos;
+	public  RankingPontos (String u, int np) {
+		System.out.println("Item do Ranking -> " + u + " , "  +  np);
+		this._usuario   = u.toLowerCase();
+		this._pontos    = np;
 	}
 	public String getUsuario () {		
 		return _usuario;
 	}
-	public long getPontos () {		
+	public int getPontos () {		
 		return _pontos; 
 	}
 }
