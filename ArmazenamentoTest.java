@@ -1,5 +1,7 @@
+
 package courseraita;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -21,19 +23,21 @@ class ArmazenamentoTest {
 	@Test
 	void testSet001() throws IOException, Exception {
 
-		Armazenamento _a = new Armazenamento();
-		DriverArquivoTXT _f =  new DriverArquivoTXT(1, _a); 
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "estrela", 50));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "estrela", 50));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "comentarios", 80));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "vida", 19));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "energia", 30));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "curtida", 28));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "moeda", 44));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "estrela", 100));
-    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "estrela", -50));
-	
-		
+		DriverArquivoTXT _f =  new DriverArquivoTXT(); 
+		_f.deletarArquivoTextoDePontuacao();
+		Armazenamento _a = new Armazenamento(_f);
+		_a.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("joana", "estrela", 50));
+		_a.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("joana", "estrela", 50));
+		_a.armazenarPontuacaoDeUmUsuario(new PontuacaoUsuarios("joana", "comentarios", 80));
+
+//    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "vida", 19));
+//    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "energia", 30));
+//    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "curtida", 28));
+//    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "moeda", 44));
+//    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "estrela", 100));
+//    	_f.extendeArquivotextoPontuacao(new PontuacaoUsuarios("francisco", "estrela", -50));
+    	
+		assertEquals (280, _a.recuperarTotaisDePontosDeUmTipoDeUmUsuario("estrela", "joana"));  
 		
 	}
 	
