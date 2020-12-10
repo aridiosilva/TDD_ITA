@@ -72,21 +72,21 @@ public class Placar {
 	private ArrayList<RankingPontos> getRankingNaoClassificado(String tipoPonto) throws Exception {
 		
 		HashMap<String, String> _mapaTemporario = sumarizaPontosUsuariosPorTipo(tipoPonto);
+		
 		LinkedList<PontuacaoUsuarios> _pontuacaoUsuarios = new LinkedList<PontuacaoUsuarios>();
 		
-//		HashMap<String, String> mapaEstados = getMapa(); 
-//		for (Map.Entry<String, String> entrada : mapaEstados.entrySet()) { 
-//		System.out.println(entrada.getKey()); 
-//		System.out.println(entrada.getValue());
-		
-		for (Entry<String, String> map : _mapaTemporario.entrySet()) { 
+		for (Entry<String, String> map : _mapaTemporario.entrySet()) {
+			
 			String user =  map.getKey();
 			int points = Integer.parseInt(map.getValue());
 			_pontuacaoUsuarios.add(	new PontuacaoUsuarios ( user, tipoPonto, points));
 			System.out.println(" ** tp= " + user + " p= " + points);
 		}
+		
 		ArrayList<RankingPontos> _list = converteListaPontosParaRanking(tipoPonto, _pontuacaoUsuarios);		
+		
 		exibeRankingPontos(_list);
+		
 		return _list;
 	}
 
@@ -140,7 +140,6 @@ public class Placar {
 		
 		System.out.println ("\n###### HASH MAP com os pontos sumarizados por usuarios ####");
 		exibePontuacoesDeUmUsuario(_mapaTemporario);
-		
 		return _mapaTemporario;
 	}
 	
