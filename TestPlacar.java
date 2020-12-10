@@ -3,7 +3,6 @@ package courseraita;
 
 import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -224,31 +223,24 @@ class TestPlacar {
 	}
 	
 	private void exibeListaDePontuacao (PontuacaoUsuarios p) {	
-		
 		System.out.print("(1) " + p.getUsuario() + ", " + p.getTipoPonto() + ", " + p.getPontos() + "\n");
 	}
 	
 	private void exibePontuacoesDeUmUsuario (HashMap<String,String> h) {	
-		
 		System.out.println ("\n\n TESTANDO PLACAR ");
-		
 		for (String i : h.keySet()) {
 			System.out.print("\n  key: " + i + " value: " + h.get(i));
 		}
 	}
 	
 	private void exibePontuacao (LinkedList<PontuacaoUsuarios> pu) {		
-		
-		System.out.println ("\n\n TESTANDO PLACAR  ");
-		
+		System.out.println ("\n\n TESTANDO PLACAR  ");		
 		for (int i=0; i < pu.size(); i++) {			
 			exibeListaDePontuacao (new PontuacaoUsuarios(pu.get(i).getUsuario(),pu.get(i).getTipoPonto(),pu.get(i).getPontos()));
 		}
 	}
 	private void exibeRankingPontos (List<RankingPontos> r) {		
-		
 		System.out.println ("\n\n TESTANDO PLACAR  ");
-		
 		for (int i=0; i < r.size(); i++) {			
 			System.out.println (" tp= " + r.get(i).getUsuario() + " p= " + r.get(i).getPontos());
 		}
