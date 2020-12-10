@@ -1,11 +1,10 @@
 
 package courseraita;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -25,56 +24,52 @@ public class DriverArquivoTXT {
     // FIELD NOME DO TIPO DO PONTO                  F = TAMANHO VARIAVEL - o numero de bytes do nome 
 
 	
-	File file = new File( "pontuacaoGamificacao.txt" );
-	
+	private static File file = new File( "pontuacaoGamificacao.txt" );
 	private static final int  ESVAZIAR_ARQUIVO = 1;
 	
-	private Armazenamento _a;
-
-	public DriverArquivoTXT (int acao, Armazenamento a) throws IOException, Exception {
-		
-		this._a = a;
-		try {
-			if (!file.exists()) 	 
-				file.createNewFile();
-			else {
-				if (acao == ESVAZIAR_ARQUIVO) {
-					if(file.delete()) 
-						System.out.println("File deleted successfully"); 
-					else
-						System.out.println("Failed to delete the file");
-				} else { LerArquivoTextoEInicializarCacheMemoria(); }
-			}
-		}
-		catch (IOException ioe) { 
-			throw new Exception ("Problema na Leitura do Arquivo TEXTO");
-		}
-	}
+	private static LinkedList<PontuacaoUsuarios> _pontuacaoUsuarios = new LinkedList<PontuacaoUsuarios>();
+	private static HashSet<String>         _diferentesTiposDePontos = new HashSet<String>();
 
 	public void LerArquivoTextoEInicializarCacheMemoria() throws Exception {
 		try {
 
 			RandomAccessFile arquivoTXT = new RandomAccessFile("pontuacaoGamificacao.txt", "rw"); 
-			if (arquivoTXT.length() != 0) {
+			if ((int)arquivoTXT.length() != 0) {
 
-				int posicaoALer = 0;
-				arquivoTXT.seek(posicaoALer); 				
-				int size_registro   = arquivoTXT.readInt();
-				
-				int posicaoProximoRegistro = posicaoALer + size_registro;					
-				boolean bytesALer = true;
-				
-				while ( bytesALer ) {
-					
-					if ( arquivoTXT.length() >= arquivoTXT.length() ) {
+				int posicaoInicialReg      = 0;
+				int posicaoLeitura         = 0;
+				int posicaoProximoRegistro = 0;
 
-						PontuacaoUsuarios p = ExtrairEGravarRegistroPontuacao ( arquivoTXT, posicaoALer,  size_registro);
-						_a.armazenarPontuacaoDeUmUsuario( p );
-
-					}	
-					else  bytesALer = false;
+				while(true){
+					try{
 						
-				}
+						arquivoTXT.seek((long)posicaoLeitura); 				
+						int size_registro   = arquivoTXT.readInt();
+
+						System.out.println (" \n Size do Registo lido do Arquivo TXT==> " + size_registro);
+
+						PontuacaoUsuarios p = ExtrairEGravarRegistroPontuacao (posicaoInicialReg,  size_registro);
+
+						System.out.println (" \n DriverTXT reg lido TXT==> " + 
+								p.getUsuario()  + ", " +
+								p.getTipoPonto() +  ", " 
+								+ p.getPontos());
+
+						armazenarPontuacaoDeUmUsuario( p );
+
+						posicaoInicialReg += size_registro;	
+						posicaoLeitura    = posicaoInicialReg;
+
+					} catch(EOFException e)
+					{
+						System.out.println("Fim do Arquivo TXT atingido!!!"); 
+					    break;
+					}
+				    finally
+				    {
+				    	arquivoTXT.close();
+				    }
+			    }	
 				arquivoTXT.close();
 			}
 		} 
@@ -86,40 +81,78 @@ public class DriverArquivoTXT {
 		} 
 	}
 
-	private PontuacaoUsuarios ExtrairEGravarRegistroPontuacao (RandomAccessFile fileTXT, 
-	  		                                      int posicaoNoFile, int size_reg) throws IOException {
+	private void armazenarPontuacaoDeUmUsuario( PontuacaoUsuarios p) throws IOException, Exception {
 		
-		int posicaoALer = posicaoNoFile;
-		posicaoALer += SIZE_FIELD_TOTAL_EM_BYTES;
-		fileTXT.seek(posicaoALer); 
-		int sizeNomeUsuario = fileTXT.readInt();
-
-		posicaoALer += SIZE_FIELD_USERNAME;
-		fileTXT.seek(posicaoALer); 
-		int sizeNomeTipoPonto   = fileTXT.readInt();
-
-		posicaoALer += SIZE_FIELD_TIPOPONTO_NOME;
-		fileTXT.seek(posicaoALer); 
-		int numeroPontos  = fileTXT.readInt();
-
-		posicaoALer += SIZE_FIELD_NUMERO_PONTOS;
-		fileTXT.seek(posicaoALer); 
-		byte[] nomeUsuario = new byte[(int) sizeNomeUsuario]; 
+		_pontuacaoUsuarios.add (p);
 		
-		for ( int i=0; i < sizeNomeUsuario; i++ ) {
-			fileTXT.seek(posicaoALer + i); 
-			nomeUsuario[i] = fileTXT.readByte();
+		System.out.println ("\n PONTUAÇAÕ SENDO INCLUIDA A PARTIR DO ARQUIVO TXT: ");
+		for (int i=0; i < _pontuacaoUsuarios.size(); i++) {			
+			  System.out.print("\n(" + i + ") " +
+					  _pontuacaoUsuarios.get(i).getUsuario() + ", " + 
+					  _pontuacaoUsuarios.get(i).getTipoPonto() + ", " + 
+					  _pontuacaoUsuarios.get(i).getPontos());
 		}
-
-		posicaoALer += SIZE_FIELD_USERNAME;
-		fileTXT.seek(posicaoALer); 
-		byte[] tipoPonto = new byte[(int) sizeNomeTipoPonto]; 
 		
-		for ( int i=0; i < sizeNomeTipoPonto; i++ ) {
-			fileTXT.seek(posicaoALer + i); 
-			tipoPonto[i] = fileTXT.readByte();
-		}
-		return( new PontuacaoUsuarios (new String(nomeUsuario), new String(tipoPonto), numeroPontos) );
+		if ( p.getPontos() != 0 && !_diferentesTiposDePontos.contains(p._tipoPonto))	
+		
+			_diferentesTiposDePontos.add (p._tipoPonto);
+		
+		extendeArquivotextoPontuacao(p);
+		
+	}
+	
+	private PontuacaoUsuarios ExtrairEGravarRegistroPontuacao (int posicaoInicialReg, int sizeRegAtual) throws Exception {
+		
+		try {
+			RandomAccessFile fileTXT = new RandomAccessFile("pontuacaoGamificacao.txt", "rw"); 
+
+			fileTXT.seek((long) posicaoInicialReg + SIZE_FIELD_TOTAL_EM_BYTES); 
+			int sizeNomeUsuario = fileTXT.readInt();
+			System.out.println (" \n DriverTXT size do Nome do Usuario ==> " + sizeNomeUsuario);
+
+			fileTXT.seek((long) posicaoInicialReg + SIZE_FIELD_TOTAL_EM_BYTES + SIZE_FIELD_USERNAME); 
+			int sizeNomeTipoPonto   = fileTXT.readInt();
+			System.out.println (" TipoUsuario ==> " + sizeNomeTipoPonto);
+
+			fileTXT.seek((long) posicaoInicialReg + SIZE_FIELD_TOTAL_EM_BYTES + SIZE_FIELD_USERNAME + SIZE_FIELD_TIPOPONTO_NOME); 
+			int numeroPontos  = fileTXT.readInt();
+			System.out.println (" NumPontos ==> " + sizeNomeTipoPonto);
+
+			long offset = (long) (posicaoInicialReg + SIZE_FIELD_TOTAL_EM_BYTES + SIZE_FIELD_USERNAME + 
+					SIZE_FIELD_TIPOPONTO_NOME +  SIZE_FIELD_NUMERO_PONTOS);
+			byte[] nomeUsuario = new byte[(int) sizeNomeUsuario]; 
+			for ( int i=0; i < sizeNomeUsuario; i++ ) {
+				fileTXT.seek((long) i + offset); 
+
+				nomeUsuario[i] = fileTXT.readByte();
+			}
+			System.out.println (" User ==> " + new String(nomeUsuario));
+			offset += (long) SIZE_FIELD_NUMERO_PONTOS+SIZE_FIELD_USERNAME;
+			byte[] tipoPonto = new byte[(int) sizeNomeTipoPonto];
+			for ( int i=0; i < sizeNomeTipoPonto; i++ ) {
+
+				fileTXT.seek((long) i + offset); 
+				tipoPonto[i] = fileTXT.readByte();
+			}
+			System.out.println (" Tipo Ponto ==> " + new String(tipoPonto));
+
+			System.out.println (" \n DriverTXT reg lido TXT==> " + 
+					new String(nomeUsuario) + ", " +   
+					new String(tipoPonto) +  ", " +
+					numeroPontos);
+
+			return( new PontuacaoUsuarios (new String(nomeUsuario), new String(tipoPonto), numeroPontos) );
+		} 
+		catch (EOFException ex) 
+		{ 
+			ex.printStackTrace(); 
+			throw new Exception ("Fim de Arquivo TXT");
+		} 		
+		catch (IOException ex) 
+		{ 
+			ex.printStackTrace(); 
+			throw new Exception ("Problema em I/o no Arquivo TXT");
+		} 
 	}
 
 	public void extendeArquivotextoPontuacao(PontuacaoUsuarios p) throws Exception, IOException {
@@ -130,13 +163,17 @@ public class DriverArquivoTXT {
 			int sizeNomeTipoPonto = p.getTipoPonto().length();
 			int size_registro     = SIZE_HEADER_REG_PONTUACAO + sizeNomeUsuario + sizeNomeTipoPonto;
 
+			System.out.println ("\n Size NomeUsuario  ======> " + p.getUsuario() + " = "   +  sizeNomeUsuario);
+			System.out.println ("\n Size Descr.Tipo Ponto ==> " + p.getTipoPonto() + " = " +  sizeNomeTipoPonto);
+			System.out.println ("\n Size Registro Pontuacao=> = "   +  size_registro);
+			
 			long deslocamentoFimDoArquivo = arquivoTXT.length();
 			arquivoTXT.seek(deslocamentoFimDoArquivo); 
 			
-			arquivoTXT.write (size_registro);
-			arquivoTXT.write (sizeNomeUsuario);
-			arquivoTXT.write (sizeNomeTipoPonto);
-			arquivoTXT.write (p.getPontos());
+			arquivoTXT.write ((int)size_registro);
+			arquivoTXT.write ((int)sizeNomeUsuario);
+			arquivoTXT.write ((int)sizeNomeTipoPonto);
+			arquivoTXT.write ((int)p.getPontos());
 			arquivoTXT.writeUTF(p.getUsuario());
 			arquivoTXT.writeUTF(p.getTipoPonto()); 
 			
@@ -144,14 +181,16 @@ public class DriverArquivoTXT {
 		} 
 		catch (IOException ex) 
 		{ 
-			System.out.println("Problema em I/o no Arquivo TXT"); 
 			ex.printStackTrace(); 
 			throw new Exception ("Problema em I/o no Arquivo TXT");
 		} 		
     }
 
 	public void deletarArquivoTextoDePontuacao() throws Exception {
-		if (!file.exists()) {
+		if (file.exists() ) {
+			
+			  System.out.println("\n size = " + (int) file.length() + " path= " + file.getAbsolutePath() );
+			  
 			  if(file.delete()) 
 			      System.out.println("File deleted successfully"); 
 			  else
