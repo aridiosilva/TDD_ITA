@@ -13,7 +13,9 @@ public class DriverArquivoTXT {
 	private final  String SEPARADOR_CAMPOS = "!";
 	
 	public DriverArquivoTXT (boolean deletarArquivoTXT) throws Exception {
+		
 		if (deletarArquivoTXT) {
+			
 			deletarArquivoTXT();
 		}
 	}
@@ -23,27 +25,19 @@ public class DriverArquivoTXT {
 		LinkedList<PontuacaoUsuarios> _pontuacaoCache = new LinkedList<PontuacaoUsuarios>();
 		try {
 			if (file.exists()) { 
-				RandomAccessFile fileTXT = new RandomAccessFile(file, "rw");				
 				
+				RandomAccessFile fileTXT = new RandomAccessFile(file, "rw");				
 				String bufferLeitura; 
-				int numRegsLidos = 0;
 				
 				while (fileTXT.getFilePointer() < fileTXT.length()) { 
-
+					
 					bufferLeitura = fileTXT.readLine(); 
 					String[] splits = bufferLeitura.split("!");
-					System.out.println("=> " + splits[0] + "," + splits[1] + "," + splits[2]);
 					_pontuacaoCache.add(new PontuacaoUsuarios (splits[0], splits[1] , Integer.parseInt(splits[2] )));
-
-					numRegsLidos++;
-					System.out.println("\n Registros Lidos do Arquivo TXT = " + numRegsLidos); 
 				} 
-				System.out.println(" Foram lidos todos os registros do ArquivoTXT"); 
 				fileTXT.close(); 
 			}
-			else {
-				System.out.println(" Arquivo TXT VAZIO - Nada a colocar em CACHE!!!"); 
-			}
+			else System.out.println(" Arquivo TXT VAZIO - Nada a colocar em CACHE!!!"); 
 		} 
 		catch (EOFException ex) 
 		{ 
@@ -61,26 +55,22 @@ public class DriverArquivoTXT {
 	public void persisteDadosNoArquivoTXT(PontuacaoUsuarios p) throws Exception, IOException {		
 		try { 
 			File file = new File("pontuacao.txt"); 
+			
 			if (!file.exists()) { 
 				file.createNewFile(); 
 			} 
+			
 			RandomAccessFile fileTXT = new RandomAccessFile(file, "rw"); 
-
 			String buffeGravacao = p.getUsuario() + SEPARADOR_CAMPOS + p.getTipoPonto() 
 			                       + SEPARADOR_CAMPOS + String.valueOf(p.getPontos() + SEPARADOR_CAMPOS);
-			System.out.println ("\n Registro a Gravar ===> " + 	buffeGravacao);	
 			
 			fileTXT.seek(fileTXT.length());
 			fileTXT.writeBytes(buffeGravacao); 
 			fileTXT.writeBytes(System.lineSeparator()); 
 			fileTXT.close(); 
-			System.out.println(" Pontuacao de Usuario Adicionada ao Arquivo TXTX !!"); 
 		} 
 		catch (IOException ioe) { 
 			System.out.println(ioe); 
-		} 
-		catch (NumberFormatException nef) { 
-			System.out.println(nef); 
 		} 
     }
 
