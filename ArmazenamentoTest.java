@@ -3,6 +3,7 @@ package courseraita;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -96,7 +97,18 @@ class ArmazenamentoTest {
 		assertEquals ("joana",    _listaPontos.get(8).getUsuario()); 
 		assertEquals ("vidadupla",_listaPontos.get(8).getTipoPonto());  
 		assertEquals (120,        _listaPontos.get(8).getPontos());  
- 
+		
+		
+		// Conferir Todos os Tipos de Pontos que Já Foram Registrados para Algum Usuario
+		
+		HashSet<String> _tiposDePontos = _a.retornarTiposDePontosJaRegistrados();
+		assertEquals (6,_tiposDePontos.size());
+		assertEquals (true,_tiposDePontos.contains("estrela"));
+		assertEquals (true,_tiposDePontos.contains("curtida"));
+		assertEquals (true,_tiposDePontos.contains("moeda"));
+		assertEquals (true,_tiposDePontos.contains("vidadupla")); 
+		assertEquals (true,_tiposDePontos.contains("energia")); 
+		assertEquals (true,_tiposDePontos.contains("comentarios")); 
 	}
 	
 	@Test
@@ -230,10 +242,23 @@ class ArmazenamentoTest {
 		assertEquals ("vida",     _listaPontos.get(21).getTipoPonto());  
 		assertEquals (-50,        _listaPontos.get(21).getPontos());  		
 		
+		
+		// Conferir Todos os Tipos de Pontos que Já Foram Registrados para Algum Usuario
+		
+		HashSet<String> _tiposDePontos = _a.retornarTiposDePontosJaRegistrados();
+		assertEquals (7,_tiposDePontos.size());
+		assertEquals (true,_tiposDePontos.contains("estrela"));
+		assertEquals (true,_tiposDePontos.contains("vida"));
+		assertEquals (true,_tiposDePontos.contains("curtida"));
+		assertEquals (true,_tiposDePontos.contains("moeda"));
+		assertEquals (true,_tiposDePontos.contains("energia"));
+		assertEquals (true,_tiposDePontos.contains("vidadupla"));
+		assertEquals (true,_tiposDePontos.contains("comentarios"));
+
 		// Remover o arquivo TXT para possibilitar rodar quantas vezes desejar da BATERIA DE TESTES UNITÁRIOS 
 		// e de INTEGRAÇÃO
 
-//		DriverArquivoTXT _driver1 =  new DriverArquivoTXT(true);  // Ao instancia com flag true é para remover o arquivo TXT
+		DriverArquivoTXT _driver1 =  new DriverArquivoTXT(true);  // Ao instancia com flag true é para remover o arquivo TXT
 	}
 	
 }
