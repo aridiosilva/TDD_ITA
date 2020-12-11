@@ -3,6 +3,7 @@ package courseraita;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -260,5 +261,38 @@ class ArmazenamentoTest {
 
 		DriverArquivoTXT _driver1 =  new DriverArquivoTXT(true);  // Ao instancia com flag true é para remover o arquivo TXT
 	}
-	
+
+	private void exibeDadosPontuacao (PontuacaoUsuarios p) {
+		exibe (	"\n Registro Adicionado -> " + p.getUsuario()  + ", " + p.getTipoPonto() +  ", " + p.getPontos());
+	}
+	private void exibe (String msg) {
+		System.out.println(msg);
+	}
+	private void exibeUsuariosETiposDePontosCadastrados (HashMap<String,String> h) {		
+		System.out.println ("\n (ST) LISTA DE USUARIOS E PONTOS CADASTRADOS: ");
+		for (String i : h.keySet()) {
+		  System.out.print("  key: " + i + " value: " + h.get(i));
+		}
+	}
+	private void exibeUsuariosCadastrados (HashSet<String> u) {		
+		System.out.println ("\n (ST) LISTA DE USUARIOS CADASTRADOS:");
+		for (String s : u) {
+			  System.out.print(" -> " + s);
+		}
+	}
+	private void exibeTiposPontosCadastrados (HashSet<String>  p) {		
+		System.out.println ("\n (ST) LISTA DE DIFERENTES TIPOS DE PONTOS CADASTRADOS: ");
+		for (String s : p) {
+			  System.out.print(" -> " + s);
+		}
+	}
+	private void exibePontuacao (LinkedList<PontuacaoUsuarios> p) {		
+		System.out.println ("\n (ST) LISTA TOTAL USUARIOS COM PONTUACAO: ");
+		for (int i=0; i < p.size(); i++) {			
+			  System.out.print("\n(" + i + ") " + p.get(i).getUsuario() + ", " + p.get(i).getTipoPonto() + ", " + p.get(i).getPontos());
+		}
+	}
+	private void exibeDadosUsuarios (PontuacaoUsuarios p) {		
+	  System.out.print("(ST) DADOS REG USER " + p.getUsuario() + ", " + p.getTipoPonto() + ", " + p.getPontos());
+	}
 }

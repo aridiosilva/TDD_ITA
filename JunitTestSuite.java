@@ -8,8 +8,8 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
 	
-	TestMockArmazenamento.class,
-	TestPlacar.class
+	ArmazenamentoTest.class,
+	PlacarTest.class
 })
 
 public class JunitTestSuite {

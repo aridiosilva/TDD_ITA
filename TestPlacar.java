@@ -12,13 +12,13 @@ import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 
 @FixMethodOrder (MethodSorters.NAME_ASCENDING)
-class TestPlacar {
+class PlacarTest {
 
 	MockArmazenamento _mock = new MockArmazenamento();
 	Placar _placar;
 	 
 	@Test
-	void testSet001PrimeiroUsuarioComPontosPositivosENegativos() throws Exception {
+	void testSet001() throws Exception {
 
 		// Conferindo inclusão de varias pontuações de um mesmo usuario
 
@@ -59,7 +59,6 @@ class TestPlacar {
 		List<RankingPontos> _rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("vida");
 		assertEquals (false,_rankingDecrescente.isEmpty());
 		assertEquals (1,_rankingDecrescente.size());
-		System.out.println ("\n\n TESTANDO PLACAR do Francisco ");
 		exibeRankingPontos(_rankingDecrescente);
 		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("francisco"));
 		assertEquals (19,_rankingDecrescente.get(0).getPontos());
@@ -69,14 +68,13 @@ class TestPlacar {
 		_rankingDecrescente = _placar.retornarRankingUsuariosDeUmTipoDePonto ("estrela");
 		assertEquals (false,_rankingDecrescente.isEmpty());
 		assertEquals (1,_rankingDecrescente.size());
-		System.out.println ("\n\n TESTANDO PLACAR de ESTRELA do Francisco ");
 		exibeRankingPontos(_rankingDecrescente);
 		assertEquals (true,_rankingDecrescente.get(0).getUsuario().equals("francisco"));
 		assertEquals (100,_rankingDecrescente.get(0).getPontos());
 	}
  
 	@Test
-	void testSet002SOutrosUsuariosComMultiplosPontos() throws Exception {
+	void testSet002() throws Exception {
    	
 		// Conferindo inclusão de diversas pontuações de diversos usuarios - acrescendo ao Set Anterior
 
