@@ -7,24 +7,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+
+@FixMethodOrder (MethodSorters.NAME_ASCENDING)
 class ArmazenamentoTest {
-
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
-	@BeforeEach
-	void setUp() throws Exception {
-	}
 
 	@Test
 	void testSet001() throws IOException, Exception {
 
-		DriverArquivoTXT _driver =  new DriverArquivoTXT(false); 
+		DriverArquivoTXT _driver =  new DriverArquivoTXT(true); 
 		Armazenamento _a = new Armazenamento(_driver);
 		
 		// Conferindo inclusão de varias pontuações inciais de um mesmo usuario
@@ -103,7 +97,7 @@ class ArmazenamentoTest {
 		// Conferir Todos os Tipos de Pontos que Já Foram Registrados para Algum Usuario
 		
 		HashSet<String> _tiposDePontos = _a.retornarTiposDePontosJaRegistrados();
-		assertEquals (6,_tiposDePontos.size());
+		
 		assertEquals (true,_tiposDePontos.contains("estrela"));
 		assertEquals (true,_tiposDePontos.contains("curtida"));
 		assertEquals (true,_tiposDePontos.contains("moeda"));
@@ -256,14 +250,15 @@ class ArmazenamentoTest {
 		assertEquals (true,_tiposDePontos.contains("vidadupla"));
 		assertEquals (true,_tiposDePontos.contains("comentarios"));
 
-		// Remover o arquivo TXT para possibilitar rodar quantas vezes desejar da BATERIA DE TESTES UNITÁRIOS 
+		// Remover o arquivo TXT p/possibilitar rodar quantas vezes desejar a BATERIA-TESTES UNITÁRIOS 
 		// e de INTEGRAÇÃO
 
-		DriverArquivoTXT _driver1 =  new DriverArquivoTXT(true);  // Ao instancia com flag true é para remover o arquivo TXT
+		DriverArquivoTXT _driver1 =  new DriverArquivoTXT(true);  // Ao instancia c/true remover o arquivoTXT
 	}
 
 	private void exibeDadosPontuacao (PontuacaoUsuarios p) {
-		exibe (	"\n Registro Adicionado -> " + p.getUsuario()  + ", " + p.getTipoPonto() +  ", " + p.getPontos());
+		exibe (	"\n Registro Adicionado -> " + p.getUsuario()  + ", " + p.getTipoPonto() +
+				", " + p.getPontos());
 	}
 	private void exibe (String msg) {
 		System.out.println(msg);
@@ -289,7 +284,8 @@ class ArmazenamentoTest {
 	private void exibePontuacao (LinkedList<PontuacaoUsuarios> p) {		
 		System.out.println ("\n (ST) LISTA TOTAL USUARIOS COM PONTUACAO: ");
 		for (int i=0; i < p.size(); i++) {			
-			  System.out.print("\n(" + i + ") " + p.get(i).getUsuario() + ", " + p.get(i).getTipoPonto() + ", " + p.get(i).getPontos());
+			  System.out.print("\n(" + i + ") " + p.get(i).getUsuario() + ", " +
+		                        p.get(i).getTipoPonto() + ", " + p.get(i).getPontos());
 		}
 	}
 	private void exibeDadosUsuarios (PontuacaoUsuarios p) {		

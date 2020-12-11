@@ -8,8 +8,9 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
 	
+	PlacarTest.class,
 	ArmazenamentoTest.class,
-	PlacarTest.class
+	IntegracaoTest.class
 })
 
 public class JunitTestSuite {
