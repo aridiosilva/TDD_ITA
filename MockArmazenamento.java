@@ -13,22 +13,18 @@ public class MockArmazenamento implements IArmazenamento {
 	@Override
 	public void armazenarPontuacaoDeUmUsuario(PontuacaoUsuarios p) {
 		
-		_pontuacaoUsuarios.add (p);
-		
-		if ( p.getPontos() != 0 && !_diferentesTiposDePontos.contains(p._tipoPonto))	
-		
+		_pontuacaoUsuarios.add (p);		
+		if ( p.getPontos() != 0 && !_diferentesTiposDePontos.contains(p._tipoPonto))			
 			_diferentesTiposDePontos.add (p._tipoPonto);
 	}
 
 	@Override
-	public HashSet<String> retornarTiposDePontosJaRegistrados() {
-		
+	public HashSet<String> retornarTiposDePontosJaRegistrados() {		
 		return _diferentesTiposDePontos;
 	}
 
 	@Override
 	public LinkedList<PontuacaoUsuarios> retornarUsuariosComAlgumTipodePonto() throws Exception {
-
 		if (_pontuacaoUsuarios.isEmpty())
 			throw new Exception ("Error: Arquivo Vazio - Nenhuma Pontuacao de Usuarios");
 		
@@ -36,14 +32,12 @@ public class MockArmazenamento implements IArmazenamento {
 	}
  
 	@Override
-	public int recuperarTotaisDePontosDeUmTipoDeUmUsuario(String tipoPonto, String usuario) throws Exception {
-	
+	public int recuperarTotaisDePontosDeUmTipoDeUmUsuario(String tipoPonto, String usuario) throws Exception {	
 		if (_pontuacaoUsuarios.isEmpty())
 			throw new Exception ("Error: Arquivo Vazio - Nenhuma Pontuacao de Usuarios");
 
 		int _totalPontos = 0;
 		boolean usuarioNaoEncontrado = true;	
-
 		for (int i = 0; i < _pontuacaoUsuarios.size(); i++) {
 		
 			if (((String) _pontuacaoUsuarios.get(i).getUsuario()).contains(usuario)) {
