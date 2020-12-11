@@ -11,57 +11,46 @@ import java.util.LinkedList;
 
 public class Armazenamento implements IArmazenamento {
 
-	private static DriverArquivoTXT driveTXT;
-	
+	private static DriverArquivoTXT driveTXT;	
 	private static LinkedList<PontuacaoUsuarios> _pontuacaoUsuarios = new LinkedList<PontuacaoUsuarios>();
 	private static HashSet<String>         _diferentesTiposDePontos = new HashSet<String>();
 
 	public Armazenamento (DriverArquivoTXT d) throws Exception, IOException  {
 
-		driveTXT = d;
-		driveTXT.LerArquivoTextoEInicializarCacheMemoria();
+		driveTXT = d;		
+		_pontuacaoUsuarios = driveTXT.cargaEmCacheApartirArquivoTXT();		
+		if ( _pontuacaoUsuarios.size() != 0) {
+			
+			_diferentesTiposDePontos.clear();
+			
+			for (int i=0; i < _pontuacaoUsuarios.size(); i++) {		
+				
+				if ( _pontuacaoUsuarios.get(i).getPontos() != 0 && 
+						
+					!_diferentesTiposDePontos.contains(_pontuacaoUsuarios.get(i).getTipoPonto()))					
+  				    _diferentesTiposDePontos.add (_pontuacaoUsuarios.get(i).getTipoPonto());
+			}
+		}		
 	}
 	
 	@Override
 	public void armazenarPontuacaoDeUmUsuario( PontuacaoUsuarios p) throws IOException, Exception {
-		
-		if (p == null)
-			throw new Exception ("Pontuacao de Usuarios está com NULL!!!");
-		
-		_pontuacaoUsuarios.add (p);
-		
-		System.out.println ("\n PONTUAÇAÕ SENDO INCLUIDA A PARTIR DO ARQUIVO TXT: ");
-		for (int i=0; i < _pontuacaoUsuarios.size(); i++) {			
-			  System.out.print("\n(" + i + ") " +
-					  _pontuacaoUsuarios.get(i).getUsuario() + ", " + 
-					  _pontuacaoUsuarios.get(i).getTipoPonto() + ", " + 
-					  _pontuacaoUsuarios.get(i).getPontos());
-		}
-		
-		if ( p.getPontos() != 0 && !_diferentesTiposDePontos.contains(p._tipoPonto))	
-		
+		_pontuacaoUsuarios.add (p);		
+		if ( p.getPontos() != 0 && !_diferentesTiposDePontos.contains(p._tipoPonto))			
 			_diferentesTiposDePontos.add (p._tipoPonto);
 		
-		driveTXT.extendeArquivotextoPontuacao(p);
-		
+		driveTXT.persisteDadosNoArquivoTXT(p);		
 	}
 
 	@Override
 	public HashSet<String> retornarTiposDePontosJaRegistrados() throws Exception {		
-		
-//		System.out.println( _diferentesTiposDePontos + "\n");
-		
-		driveTXT.deletarArquivoTextoDePontuacao();
-		driveTXT.LerArquivoTextoEInicializarCacheMemoria();
+		driveTXT.cargaEmCacheApartirArquivoTXT();
 		return _diferentesTiposDePontos;
 	}
 
 	@Override
 	public LinkedList<PontuacaoUsuarios> retornarUsuariosComAlgumTipodePonto() throws Exception {
-
-		driveTXT.deletarArquivoTextoDePontuacao();
-		driveTXT.LerArquivoTextoEInicializarCacheMemoria();
-
+		driveTXT.cargaEmCacheApartirArquivoTXT();
 		if (_pontuacaoUsuarios.isEmpty())
 			throw new Exception ("Error: Arquivo Vazio - Nenhuma Pontuacao de Usuarios");		
 		return _pontuacaoUsuarios;
@@ -69,15 +58,9 @@ public class Armazenamento implements IArmazenamento {
  
 	@Override
 	public int recuperarTotaisDePontosDeUmTipoDeUmUsuario(String tipoPonto, String usuario) throws Exception {
-		
-		driveTXT.deletarArquivoTextoDePontuacao();
-		driveTXT.LerArquivoTextoEInicializarCacheMemoria();
-		
+		driveTXT.cargaEmCacheApartirArquivoTXT();
 		if (_pontuacaoUsuarios.isEmpty())
-			
-			driveTXT.LerArquivoTextoEInicializarCacheMemoria();
-			
-//			throw new Exception ("Error: Arquivo Vazio - Nenhuma Pontuacao de Usuarios");
+			driveTXT.cargaEmCacheApartirArquivoTXT();
 		
 		int _totalPontos = 0;
 		boolean usuarioNaoEncontrado = true;			

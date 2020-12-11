@@ -8,7 +8,7 @@ public interface IArmazenamento {
 
 	public void armazenarPontuacaoDeUmUsuario (PontuacaoUsuarios u)  throws IOException, Exception;
 	
-	public HashSet<String> retornarTiposDePontosJaRegistrados ();
+	public HashSet<String> retornarTiposDePontosJaRegistrados () throws Exception;
 	
 	public LinkedList<PontuacaoUsuarios> retornarUsuariosComAlgumTipodePonto () throws Exception;
 	

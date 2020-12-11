@@ -1,6 +1,7 @@
 
 package courseraita;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class Placar {
 		this._armazenamento = a;
 	}
 	
-	public void registrarPontosDoUsuario(PontuacaoUsuarios u) {		
+	public void registrarPontosDoUsuario(PontuacaoUsuarios u) throws IOException, Exception {		
 		_armazenamento.armazenarPontuacaoDeUmUsuario(u);
 	}
 	
