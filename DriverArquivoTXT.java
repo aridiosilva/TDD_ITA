@@ -14,7 +14,7 @@ public class DriverArquivoTXT {
 	
 	public DriverArquivoTXT (boolean deletarArquivoTXT) throws Exception {
 		if (deletarArquivoTXT) {
-			deletarArquivoTextoDePontuacao ();
+			deletarArquivoTXT();
 		}
 	}
 	
@@ -84,7 +84,7 @@ public class DriverArquivoTXT {
 		} 
     }
 
-	public void deletarArquivoTextoDePontuacao() throws Exception {
+	public void deletarArquivoTXT() throws Exception {
 		if (file.exists() ) {
 			  System.out.println("\n size = " + (int) file.length() + " path= " + file.getAbsolutePath() );
 			  if(file.delete()) 
